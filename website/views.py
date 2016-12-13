@@ -6,3 +6,10 @@ from django.http import HttpResponse
 
 def index(request):
     return HttpResponse("Hello World War")
+
+
+def dashboard(request):
+    return render(request, 'website/dashboard.html')
+
+
+
