@@ -6,4 +6,5 @@ app_name = 'website'
 urlpatterns = [
     url(r'^$', views.index),
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^profile/$', views.profile, name='profile'),
 ]

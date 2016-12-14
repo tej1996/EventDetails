@@ -6,6 +6,9 @@
     {% load staticfiles %}
     <script src="{% static 'website/js/jquery.multi-select.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/multi-select.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-elements.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/headstyle.css' %}"/>
 
 {% endblock %}
 
@@ -14,7 +17,7 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">heading</h1>
+                        <h1 class="page-header">Dashboard</h1>
                     </div>
                 </div>
             <!-- ... Your content goes here ... -->
@@ -85,6 +88,210 @@
 
                         </div>
                     </div>
+                        </div>
+                    </div>
+
+                    <div id="faculty" class="tab-pane fade">
+                        <h3>Faculty Event Detail</h3>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-12 lead">
+                                                AMD Workshop Registration
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Date: 20 August 2016
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Last Date: 25 August 2016
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="custom-panel-footer-faculty">
+                                        <div class="col-xs-3 ">
+                                            <div style="background-color:#337ab7; height:25px; width:25px; border-radius: 50%; line-height:25px; text-align:center; color:#fff">25</div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <a href="#">
+                                                <div class="col-xs-3" style="text-align:center;"><i class="fa fa-download fa-2x"></i></div>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <a href="#">
+                                                <div class="col-xs-3"><i class="fa fa-eye fa-2x"></i></div>
+                                            </a>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <a href="#">
+                                                <div class="col-xs-3"><i class="fa fa-info fa-2x"></i></div>
+                                            </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                        <div class="panel panel-green">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-xs-12 lead">
+                                        Gamer Rebellion
+                                    </div>
+                                    <div class="col-xs-12">
+                                        Date: 20 August 2016
+                                    </div>
+                                    <div class="col-xs-12">
+                                        Last Date: 25 August 2016
+                                    </div>
+                                </div>
+                            </div>
+
+                                <div class="custom-panel-footer-faculty">
+                                    <div class="col-xs-3 ">
+                                        <div style="background-color:#5cb85c; height:25px; width:25px; border-radius: 50%; line-height:25px; text-align:center; color:#fff">25</div>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <a href="#">
+                                        <div class="col-xs-3" style="text-align:center;"><i class="fa fa-download fa-2x"></i></div>
+                                    </a>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <a href="#">
+                                        <div class="col-xs-3"><i class="fa fa-eye fa-2x"></i></div>
+                                    </a>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <a href="#">
+                                        <div class="col-xs-3"><i class="fa fa-info fa-2x"></i></div>
+                                    </a>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                        </div>
+                    </div>
+                        </div>
+                    </div>
+
+                    <div id="expired" class="tab-pane fade">
+                        <h3>Expired Events</h3>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-12 lead">
+                                                AMD Workshop Registration
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Date: 20 August 2016
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Last Date: 25 August 2016
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-footer">
+                                        <a href="#">
+                                            <span class="pull-left"><i class="fa fa-clock-o fa-2x"></i></span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="pull-right">2 days ago</span>
+                                        </a>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="panel panel-green">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-12 lead">
+                                                Gamer Rebellion
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Date: 20 August 2016
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Last Date: 25 August 2016
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-footer">
+                                        <a href="#">
+                                            <span class="pull-left"><i class="fa fa-clock-o fa-2x"></i></span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="pull-right">2 days ago</span>
+                                        </a>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+
+                    <div id="registered" class="tab-pane fade">
+                        <h3>Registered Events</h3>
+                        <div class="row">
+                            <div class="col-lg-3 col-md-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-12 lead">
+                                                AMD Workshop Registration
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Date: 20 August 2016
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Last Date: 25 August 2016
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-footer">
+                                        <a href="#">
+                                            <span class="pull-left"><i class="fa fa-clock-o fa-2x"></i></span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="pull-right">2 days ago</span>
+                                        </a>
+                                        <div class="clearfix"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6">
+                                <div class="panel panel-green">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-xs-12 lead">
+                                                Gamer Rebellion
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Date: 20 August 2016
+                                            </div>
+                                            <div class="col-xs-12">
+                                                Last Date: 25 August 2016
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="panel-footer">
+                                        <a href="#">
+                                            <span class="pull-left"><i class="fa fa-clock-o fa-2x"></i></span>
+                                        </a>
+                                        <a href="#">
+                                            <span class="pull-right">2 days ago</span>
+                                        </a>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div id="create-event" class="tab-pane fade">

@@ -1,0 +1,306 @@
+{% extends 'website/base.html' %}
+
+{% block title %} Profile {% endblock %}
+
+{% block extrafiles %}
+    {% load staticfiles %}
+    <script src="{% static 'website/js/jquery.multi-select.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/multi-select.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-style.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-elements.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/headstyle.css' %}"/>
+    <script src="{% static 'website/js/form-scripts.js' %}"></script>
+{% endblock %}
+
+{% block dashboard %}
+    <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Update Your Profile</h1>
+                    </div>
+                </div>
+                <div class="row" style="background-color:cornflowerblue">
+                    <div class="col-sm-6 col-sm-offset-3 form-box">
+                        <form role="form" action="index.html" method="post" class="registration-form">
+                            <fieldset>
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Step 1 / 4</h3>
+                                        <p>Basic Profile: 1</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-name">Name</label>
+                                        <input type="text" name="name" placeholder="Name..." class="form-control" id="form-name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-email">Email</label>
+                                        <input type="email" name="email" placeholder="Email..." class="form-control" id="form-email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-dob">DOB</label>
+                                        <input type="date" name="dob" placeholder="DOB..." class="form-control" id="form-dob">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="" for="form-gender">Gender</label>
+                                        <input type="radio" name="gender" class="" id="form-gender" value="male"> male
+                                        <input type="radio" name="gender" class="" id="form-gender" value="female"> female
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-bplace">Birth Place</label>
+                                        <input type="text" name="bplace" placeholder="Birth Place..." class="form-control" id="form-bplace">
+                                    </div>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Step 1 / 4</h3>
+                                        <p>Basic Profile: 2</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-contact">Contact</label>
+                                        <input type="text" name="contact" placeholder="Contact..." class="form-control" id="form-contact">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-contact2">Alternate Contact</label>
+                                        <input type="text" name="contact2" placeholder="Alternate Contact..." class="form-control" id="form-contact2">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="btn btn-info" for="my-file-selector">
+                                            <input id="my-file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());"> Upload Photo
+                                        </label>
+                                        <span class='label label-info' id="upload-file-info"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="btn btn-info" for="my-file-selector">
+                                            <input id="my-file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());"> Upload Signature
+                                        </label>
+                                        <span class='label label-info' id="upload-file-info"></span>
+                                    </div>
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Step 2 / 4</h3>
+                                        <p>Current Education Details:</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-book"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-croll">Class Roll No.</label>
+                                        <input type="text" name="crollno" placeholder="Class Roll No..." class="form-control" id="form-croll">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-urollno">University Roll No</label>
+                                        <input type="text" name="urollno" placeholder="University Roll No" class="form-control" id="form-urollno">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-college">College</label>
+                                        <input type="text" name="college" placeholder="College..." class="form-control" id="form-college">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-year">Year</label>
+                                        <input type="text" name="year" placeholder="Year..." class="form-control" id="form-year" list="yr">
+                                        <datalist id="yr">
+                                            <option value="1"></option>
+                                            <option value="2"></option>
+                                            <option value="3"></option>
+                                            <option value="4"></option>
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-branch">Branch</label>
+                                        <input type="text" name="year" placeholder="Branch..." class="form-control" id="form-branch" list="br">
+                                        <datalist id="br">
+                                            <option value="C"></option>
+                                            <option value="EE"></option>
+                                            <option value="CSE"></option>
+                                            <option value="IT"></option>
+                                            <option value="ME"></option>
+                                            <option value="ECE"></option>
+                                        </datalist>
+                                    </div>
+
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Step 3 / 4</h3>
+                                        <p>Previous Educationals Details(All):</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-book"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-mode">Mode</label>
+                                        <input type="text" name="mode" placeholder="Mode of Admission..." class="form-control" id="form-mode">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-rank">Rank</label>
+                                        <input type="text" name="form-rank" placeholder="RPET/AIEEE Rank..." class="form-control" id="form-rank">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-ssp">12th precentage</label>
+                                        <input type="text" name="ssp" placeholder="12th Precentage..." class="form-control" id="form-ssp">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-board">Board</label>
+                                        <input type="text" name="board" placeholder="Board..." class="form-control" id="form-board">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-sp">10th precentage</label>
+                                        <input type="text" name="sp" placeholder="10th Precentage..." class="form-control" id="form-sp">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-school">School</label>
+                                        <input type="text" name="school" placeholder="School..." class="form-control" id="form-school">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-medium">Medium</label>
+                                        <input type="text" list="med" name="medium" placeholder="Medium..." class="form-control" id="form-medium">
+                                        <datalist id="med">
+                                            <option value="English"></option>
+                                            <option value="Hindi"></option>
+                                        </datalist>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-ssyear">Year of passing (XII)</label>
+                                        <input type="text" name="ssyear" placeholder="Year of passing (XII)..." class="form-control" id="form-ssyear">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-syear">Year of passing (X)</label>
+                                        <input type="text" name="syear" placeholder="Year of passing (X)..." class="form-control" id="form-syear">
+                                    </div>
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Step 3 / 4</h3>
+                                        <p>Previous Educationals Details(Diploma):</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-book"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-dcollege">College</label>
+                                        <input type="text" name="dcollege" placeholder="College Name..." class="form-control" id="form-dcollege">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-stream">Stream</label>
+                                        <input type="text" name="stream" placeholder="Stream..." class="form-control" id="form-stream">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-dp">Precentage</label>
+                                        <input type="text" name="dp" placeholder="Precentage..." class="form-control" id="form-dp">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-dyear">Year of passing</label>
+                                        <input type="text" name="dyear" placeholder="Year of passing..." class="form-control" id="form-dyear">
+                                    </div>
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Step 4 / 4</h3>
+                                        <p>Additional Details:</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-send"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-fname">Father's Name</label>
+                                        <input type="text" name="fname" placeholder="Father's Name..." class="form-control" id="form-fname">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-fcontact">Father's Contact</label>
+                                        <input type="text" name="fcontact" placeholder="Father's Contact..." class="form-control" id="form-fcontact">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-mname">Mothers's Name</label>
+                                        <input type="text" name="mname" placeholder="Mother's Name..." class="form-control" id="form-mname">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-mcontact">Mother's Contact</label>
+                                        <input type="text" name="mcontact" placeholder="Mother's Contact..." class="form-control" id="form-mcontact">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-occupation">Occupation</label>
+                                        <input type="text" name="occupation" placeholder="Occupation..." class="form-control" id="form-occupation">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-gcontact">Gurdian Contact</label>
+                                        <input type="text" name="gcontact" placeholder="Gurdian's Contact..." class="form-control" id="form-gcontact">
+                                    </div>
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Step 4 / 4</h3>
+                                        <p>Additional Details 2:</p>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-envelope"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-presentaddr">present address</label>
+                                        <textarea name="presentaddr" placeholder="Present Address..." class="form-control" id="form-presentaddr"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-permanentaddr">Permanent Address</label>
+                                        <textarea name="permanentaddr" placeholder="Permanent Address..." class="form-control" id="form-permanentaddr"></textarea>
+                                    </div>
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="submit" class="btn">Update</button>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+             </div>
+    </div>
+{% endblock %}
