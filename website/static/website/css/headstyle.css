@@ -1,0 +1,16 @@
+ @media screen  and (orientation:landscape){
+            .port {
+                display: none;
+            }
+            .land {
+                display: block;
+            }
+        }
+        @media screen and (orientation:portrait){
+            .port {
+                display: block;
+            }
+            .land {
+                display: none;
+            }
+        }
