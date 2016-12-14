@@ -5,7 +5,8 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return HttpResponse("Hello World War")
+    #return HttpResponse("Hello World War")
+    return render(request, 'website/index.html')
 
 
 def dashboard(request):
