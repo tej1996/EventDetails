@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-style.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-elements.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/headstyle.css' %}"/>
+    <script src="{% static 'website/js/event-form.js' %}"></script>
 
 {% endblock %}
 
@@ -297,7 +298,8 @@
                     <div id="create-event" class="tab-pane fade">
                     <h3>Create Event</h3>
                     <div class="row">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal event-form" action="{% url 'new-event' %}" method="post">
+                            {% csrf_token %}
                             <fieldset>
                             <!-- Event Name-->
                             <div class="form-group">
@@ -312,121 +314,25 @@
                             <div class="form-group">
                               <label class="col-md-4 control-label" for="textarea">Description</label>
                               <div class="col-md-4">
-                                <textarea class="form-control" id="textarea" placeholder="Event Description" name="textarea"></textarea>
+                                <textarea class="form-control" id="textarea" placeholder="Event Description" name="description"></textarea>
                               </div>
                             </div>
 
-                            <!-- Start Date & Time-->
+                             <!-- Start Date & Time-->
                             <div class="form-group">
-                              <label class="col-md-4 control-label" for="textinput">Start Date & Time</label>
+                              <label class="col-md-4 control-label" for="textinput">Start Date</label>
                               <div class="col-md-4">
-                                <input class="form-control" name="registration_date" id="registration-date" type="date">
-                                <input class="form-control" name="registration_time" id="registration-time" type="time">
+                                <input class="form-control" name="start_date" id="registration-date" type="date">
                               </div>
                             </div>
                             <!-- End Date & Time-->
                             <div class="form-group">
-                              <label class="col-md-4 control-label" for="textinput">End Date & Time</label>
+                              <label class="col-md-4 control-label" for="textinput">End Date</label>
                               <div class="col-md-4">
-                                <input class="form-control" name="registration_date" id="registration-date" type="date">
-                                <input class="form-control" name="registration_time" id="registration-time" type="time">
+                                <input class="form-control" name="end_date" id="registration-date" type="date">
                               </div>
                             </div>
-                            <!--Year-->
-                            <div class="form-group">
-                              <label class="col-md-4 control-label" for="event_name">Year</label>
-                              <div class="col-md-4">
-                                  <label class="checkbox-inline"><input type="checkbox" value="">I</label>
-                                  <label class="checkbox-inline"><input type="checkbox" value="">II</label>
-                                  <label class="checkbox-inline"><input type="checkbox" value="">III</label>
-                                  <label class="checkbox-inline"><input type="checkbox" value="">IV</label>
-                              </div>
-                            </div>
-                            <!-- Branch-->
-                            <div class="form-group">
-                              <label class="col-md-4 control-label" for="event_name">Event Name</label>
-                              <div class="col-md-4">
-                                  <label class="checkbox-inline"><input type="checkbox" value="">CSE</label>
-                                  <label class="checkbox-inline"><input type="checkbox" value="">IT</label>
-                                  <label class="checkbox-inline"><input type="checkbox" value="">ME</label>
-                                  <label class="checkbox-inline"><input type="checkbox" value="">Civil</label>
-                                  <label class="checkbox-inline"><input type="checkbox" value="">ECE</label>
-                                  <label class="checkbox-inline"><input type="checkbox" value="">EE</label>
 
-                              </div>
-                            </div>
-                            <!--Select Required Fields-->
-                            <div class="form-group">
-                              <label class="col-md-4 control-label" for="textinput">Select Required Fields</label>
-                              <div class="col-md-4">
-                                 <select id='optgroup' multiple='multiple'>
-                                    <optgroup label='Basic Profile'>
-                                        <option value='1'>Name</option>
-                                        <option value='2'>Email</option>
-                                        <option value='3'>Date of Birth</option>
-                                        <option value='4'>Gender</option>
-                                        <option value='5'>Birth Place</option>
-                                        <option value='6'>Contact No.</option>
-                                        <option value='7'>Alternate Contact No.</option>
-                                        <option value='8'>Age</option>
-                                        <option value='9'>Passport Size Photo</option>
-                                        <option value='10' selected>Signature</option>
-                                     </optgroup>
-                                     <optgroup label='Current Education Details'>
-                                         <option value='11'>Class Roll No.</option>
-                                         <option value='12'>University Roll No.</option>
-                                         <option value='13'>Current Semester</option>
-                                         <option value='14'>Section</option>
-                                         <option value='15'>Batch</option>
-                                         <option value='16'>Name of College</option>
-                                     </optgroup>
-                                      <optgroup label='Semester Percentage'>
-                                         <option value='17'>I Semester</option>
-                                         <option value='18'>II Semester</option>
-                                         <option value='19'>III Semester</option>
-                                         <option value='20'>IV Semester</option>
-                                         <option value='21'>V Semester</option>
-                                         <option value='22'>VI Semester</option>
-                                         <option value='23'>VII Semester</option>
-                                         <option value='24'>VIII Semester</option>
-                                         <option value='25'>Aggregate</option>
-                                     </optgroup>
-                                     <optgroup label='Previous Education Details'>
-                                         <option value='26'>Mode of Admission</option>
-                                         <option value='27'>AIEEE/RPET Rank</option>
-                                         <option value='28'>10th Percentage</option>
-                                         <option value='29'>10th Board</option>
-                                         <option value='30'>Year of Passing(10th)</option>
-                                         <option value='31'>Name of School (10th)</option>
-                                         <option value='32'>Medium (Hindi/English) (10th class) </option>
-                                         <option value='33'>12th Percentage</option>
-                                         <option value='34'>12th Board</option>
-                                         <option value='35'>Year of Passing(12th)</option>
-                                         <option value='36'>Name of School (12th)</option>
-                                         <option value='37'>Medium (Hindi/English) (12th class) </option>
-                                         <option value='38'>Diploma Percentage</option>
-                                         <option value='39'>Year of Passing Diploma</option>
-                                         <option value='40'>Stream In Diploma</option>
-                                         <option value='41'>Name of Diploma College</option>
-                                     </optgroup>
-                                     <optgroup label='Addtional Details'>
-                                         <option value='42'>Permanent Address</option>
-                                         <option value='43'>Present Address</option>
-                                         <option value='44'>Father's Name</option>
-                                         <option value='45'>Father's Occupation</option>
-                                         <option value='46'>Father's Contact No.</option>
-                                         <option value='47'>Mother's Name</option>
-                                         <option value='48'>Mother's Occupation</option>
-                                         <option value='49'>Mother's Contact No.</option>
-                                         <option value='50'>Guardian's Contact No.</option>
-                                     </optgroup>
-                                  </select>
-                                  <script type="text/javascript">
-                                      // run pre selected options
-                                      $('#optgroup').multiSelect({ selectableOptgroup: true });
-                                  </script>
-                              </div>
-                            </div>
                             <div class="form-group">
                               <div class="col-md-8 pull-right">
                                 <button class="btn btn-success" type="submit" value="Submit">Submit</button>

@@ -27,7 +27,8 @@ jQuery(document).ready(function() {
     	var parent_fieldset = $(this).parents('fieldset');
     	var next_step = true;
     	
-    	parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
+    	//parent_fieldset.find('input[type="text"], input[type="password"], textarea').each(function() {
+		  parent_fieldset.find('').each(function() {
     		if( $(this).val() == "" ) {
     			$(this).addClass('input-error');
     			next_step = false;
