@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 # Create your views here.
 from website.event_form import EventForm
 from website.forms import UserForm, UserProfileForm
-from website.models import Events
+from website.models import Event
 
 
 def index(request):
@@ -139,7 +139,7 @@ def new_event(request):
             e_date = request.POST.get('end_date', '')
 
         # creating an user object containing all the data
-        event_obj = Events(event_name=name, description=desc, start_date=s_date, end_date=e_date)
+        event_obj = Event(event_name=name, description=desc, start_date=s_date, end_date=e_date)
 
         # saving all the data in the current object into the database
         event_obj.save()

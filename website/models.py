@@ -17,7 +17,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 
-class Events(models.Model):
+class Event(models.Model):
     event_name = models.CharField(max_length=20)
     description = models.CharField(max_length=50)
     start_date = models.DateField()
