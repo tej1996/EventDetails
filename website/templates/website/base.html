@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}home {% endblock %}</title>
+    <title>{% block title %}Home {% endblock %}</title>
 
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/bootstrap.min.css' %}">
@@ -72,7 +72,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="{% url 'website.views.index' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                 </li>
@@ -97,10 +97,10 @@
                             </div>
                         </li>
                         <li>
-                            <a href="{% url 'website.views.dashboard' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="{% url 'dashboard' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                         </li>
                         <li>
-                            <a href="{% url 'website.views.profile' %}"><i class="fa fa-edit fa-fw"></i> Profile</a>
+                            <a href="{% url 'profile' %}"><i class="fa fa-edit fa-fw"></i> Profile</a>
                         </li>
                         <li>
                             <a href="entries.html"><i class="fa fa-table fa-fw"></i> Entries</a>
