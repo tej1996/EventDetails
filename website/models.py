@@ -17,4 +17,6 @@ class Events(models.Model):
     description = models.CharField(max_length=50)
     start_date = models.DateField()
     end_date = models.DateField()
+    by = models.IntegerField(default=23)
+
 
