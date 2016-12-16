@@ -19,7 +19,10 @@ def dashboard(request):
 
 
 def profile(request):
-    return render(request, 'website/profile.html')
+    if request.user.is_authenticated():
+        return render(request, 'website/profile.html')
+    else:
+        return redirect('/')
 
 
 def register(request):
