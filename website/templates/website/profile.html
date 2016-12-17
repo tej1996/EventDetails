@@ -143,18 +143,22 @@
                                     <div class="form-group">
                                         <label class="sr-only" for="form-sem1">Semester 1</label>
                                         {{ current_profile_form.per_sem1 }}
+                                        {{ current_profile_form.per_sem1.errors }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-sem2">Semester 2</label>
                                         {{ current_profile_form.per_sem2 }}
+                                        {{ current_profile_form.per_sem2.errors }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-sem3">Semester 3</label>
                                         {{ current_profile_form.per_sem3 }}
+                                        {{ current_profile_form.per_sem3.errors }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-sem4">Semester 4</label>
                                         {{ current_profile_form.per_sem4 }}
+                                        {{ current_profile_form.per_sem4.errors }}
                                     </div>
                              </div>
                              <div class="col-lg-3 col-md-3 col-sm-12">
@@ -164,18 +168,22 @@
                                     <div class="form-group">
                                         <label class="sr-only" for="form-sem5">Semester 5</label>
                                         {{ current_profile_form.per_sem5 }}
+                                        {{ current_profile_form.per_sem5.errors }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-sem6">Semester 6</label>
                                         {{ current_profile_form.per_sem6 }}
+                                        {{ current_profile_form.per_sem6.errors }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-sem7">Semester 7</label>
                                         {{ current_profile_form.per_sem7 }}
+                                        {{ current_profile_form.per_sem7.errors }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-sem8">Semester 8</label>
                                         {{ current_profile_form.per_sem8 }}
+                                        {{ current_profile_form.per_sem8.errors }}
                                     </div>
                                     <button type="submit" class="btn" name="update" value="update_current">Update</button>
                              </div>
@@ -207,6 +215,7 @@
                                         <div class="form-group">
                                             <label class="sr-only" for="form-twfp">12th Precentage</label>
                                             {{ previous_profile_form.percentage_twelfth }}
+                                            {{ previous_profile_form.percentage_twelfth.errors }}
                                         </div>
                                         <div class="form-group">
                                         <label class="sr-only" for="form-twfboard">12th Board</label>
@@ -232,6 +241,7 @@
                                         <div class="form-group">
                                         <label class="sr-only" for="form-tp">10th Precentage</label>
                                         {{ previous_profile_form.percentage_tenth }}
+                                            {{ previous_profile_form.percentage_tenth.errors }}
                                         </div>
                                         <div class="form-group">
                                         <label class="sr-only" for="form-tboard">10th Board</label>
@@ -257,6 +267,7 @@
                                         <div class="form-group">
                                         <label class="sr-only" for="form-dp">Diploma Precentage</label>
                                         {{ previous_profile_form.percentage_diploma }}
+                                            {{ previous_profile_form.percentage_diploma.errors }}
                                         </div>
                                         <div class="form-group">
                                         <label class="sr-only" for="form-dstream">Stream</label>
@@ -291,6 +302,7 @@
                                     <div class="form-group">
                                         <label class="sr-only" for="form-fcontact">Father's Contact</label>
                                         {{ additional_profile_form.father_contact }}
+                                        {{ additional_profile_form.father_contact.errors }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-occupation">Father's Occupation</label>
@@ -308,6 +320,7 @@
                                     <div class="form-group">
                                         <label class="sr-only" for="form-mcontact">Mother's Contact</label>
                                         {{ additional_profile_form.mother_contact }}
+                                        {{ additional_profile_form.mother_contact.errors }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-occupation">Mother's Occupation</label>
