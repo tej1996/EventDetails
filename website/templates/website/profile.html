@@ -5,11 +5,12 @@
 {% block extrafiles %}
     {% load staticfiles %}
     <script src="{% static 'website/js/jquery.multi-select.js' %}"></script>
+    <!-- <script src="{% static 'website/js/form-scripts.js' %}"></script>-->
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/multi-select.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-style.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-elements.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/headstyle.css' %}"/>
-    <script src="{% static 'website/js/form-scripts.js' %}"></script>
+
 {% endblock %}
 
 {% block dashboard %}
@@ -17,290 +18,324 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Update Your Profile</h1>
+                        <h1 class="page-header">Edit Details</h1>
                     </div>
                 </div>
-                <div class="row" style="background-color:cornflowerblue">
-                    <div class="col-sm-6 col-sm-offset-3 form-box">
-                        <form role="form" action="index.html" method="post" class="registration-form">
-                            <fieldset>
-                                <div class="form-top">
-                                    <div class="form-top-left">
-                                        <h3>Step 1 / 4</h3>
-                                        <p>Basic Profile: 1</p>
-                                    </div>
-                                    <div class="form-top-right">
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                </div>
-                                <div class="form-bottom">
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-name">Name</label>
-                                        <input type="text" name="name" placeholder="Name..." class="form-control" id="form-name">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-email">Email</label>
-                                        <input type="email" name="email" placeholder="Email..." class="form-control" id="form-email">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-dob">DOB</label>
-                                        <input type="date" name="dob" placeholder="DOB..." class="form-control" id="form-dob">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="" for="form-gender">Gender</label>
-                                        <input type="radio" name="gender" class="" id="form-gender" value="male"> male
-                                        <input type="radio" name="gender" class="" id="form-gender" value="female"> female
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-bplace">Birth Place</label>
-                                        <input type="text" name="bplace" placeholder="Birth Place..." class="form-control" id="form-bplace">
-                                    </div>
-                                    <button type="button" class="btn btn-next">Next</button>
-                                </div>
-                            </fieldset>
+                <!-- ... Your content goes here ... -->
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#basic">Basic Profile&nbsp;<i class="fa fa-user"></i></a></li>
+                    <li><a data-toggle="tab" href="#current">Current Academic Details&nbsp;<i class="fa fa-book"></i></a></li>
+                    <li><a data-toggle="tab" href="#previous">Previous Academic Details&nbsp;<i class="fa fa-book"></i></a></li>
+                    <li><a data-toggle="tab" href="#additional">Additional Details&nbsp;<i class="fa fa-send"></i></a></li>
+                </ul>
 
-                            <fieldset>
-                                <div class="form-top">
-                                    <div class="form-top-left">
-                                        <h3>Step 1 / 4</h3>
-                                        <p>Basic Profile: 2</p>
-                                    </div>
-                                    <div class="form-top-right">
-                                        <i class="fa fa-user"></i>
-                                    </div>
-                                </div>
-                                <div class="form-bottom">
-                                    <div class="form-group">
+                <div class="tab-content">
+                    <div id="basic" class="tab-pane fade in active" style="border-radius: 5px;background: #eee;margin-top:5px; padding-bottom:10px;">
+                        <form role="form" action="{% url 'website.views.user_profile' %}" method="post" class="basic-profile-form">
+                        {% csrf_token %}
+                        <fieldset>
+                            <style>
+                                li{display: inline-block;}
+                            </style>
+                           <br>
+
+                              <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-name">Name</label>
+                                        {{ basic_profile_form.name }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-email">Email</label>
+                                        {{ user_form.email }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-dob">DOB</label>
+                                        {{ basic_profile_form.dob }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label for="form-gender">Gender : </label>
+                                            {{ basic_profile_form.gender }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-birthplace">Birth Place</label>
+                                        {{ basic_profile_form.birthplace }}
+                                        </div>
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="form-group">
                                         <label class="sr-only" for="form-contact">Contact</label>
-                                        <input type="text" name="contact" placeholder="Contact..." class="form-control" id="form-contact">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-contact2">Alternate Contact</label>
-                                        <input type="text" name="contact2" placeholder="Alternate Contact..." class="form-control" id="form-contact2">
-                                    </div>
-                                    <div class="form-group">
+                                        {{ basic_profile_form.contact }}
+                                        {{ basic_profile_form.contact.errors }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-acontact">Alternate Contact</label>
+                                        {{ basic_profile_form.alternate_contact }}
+                                        {{ basic_profile_form.alternate_contact.errors }}
+                                        </div>
+                                        <div class="form-group">
                                         <label class="btn btn-info" for="my-file-selector">
                                             <input id="my-file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());"> Upload Photo
                                         </label>
                                         <span class='label label-info' id="upload-file-info"></span>
-                                    </div>
-                                    <div class="form-group">
+                                        </div>
+                                        <div class="form-group">
                                         <label class="btn btn-info" for="my-file-selector">
                                             <input id="my-file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());"> Upload Signature
                                         </label>
                                         <span class='label label-info' id="upload-file-info"></span>
-                                    </div>
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next">Next</button>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <div class="form-top">
-                                    <div class="form-top-left">
-                                        <h3>Step 2 / 4</h3>
-                                        <p>Current Education Details:</p>
-                                    </div>
-                                    <div class="form-top-right">
-                                        <i class="fa fa-book"></i>
-                                    </div>
-                                </div>
-                                <div class="form-bottom">
+                                        </div>
+                                        <button type="submit" class="btn" name="update" value="update_basic">Update</button>
+                             </div>
+                        </fieldset>
+                        </form>
+                    </div>
+                    <div id="current" class="tab-pane fade" style="border-radius:5px;background: #eee; margin-top:5px; padding-bottom:10px;">
+                        <form role="form" action="{% url 'website.views.user_profile' %}"  method="post" class="current-acad-form">
+                        {% csrf_token %}
+                        <fieldset>
+                          <br>
+                             <div class="col-lg-3 col-md-3 col-sm-12">
                                     <div class="form-group">
-                                        <label class="sr-only" for="form-croll">Class Roll No.</label>
-                                        <input type="text" name="crollno" placeholder="Class Roll No..." class="form-control" id="form-croll">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-urollno">University Roll No</label>
-                                        <input type="text" name="urollno" placeholder="University Roll No" class="form-control" id="form-urollno">
+                                        <h4>College Details</h4>
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-college">College</label>
-                                        <input type="text" name="college" placeholder="College..." class="form-control" id="form-college">
+                                        {{ current_profile_form.college }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-urollno">University Roll No</label>
+                                        {{ current_profile_form.univ_rno }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-croll">Class Roll No.</label>
+                                        {{ current_profile_form.class_rno }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-year">Year</label>
-                                        <input type="text" name="year" placeholder="Year..." class="form-control" id="form-year" list="yr">
-                                        <datalist id="yr">
-                                            <option value="1"></option>
-                                            <option value="2"></option>
-                                            <option value="3"></option>
-                                            <option value="4"></option>
-                                        </datalist>
+                                        {{ current_profile_form.year }}
+                                    </div>
+                             </div>
+                             <div class="col-lg-3 col-md-3 col-sm-12">
+                                    <div class="form-group">
+                                        <h4>Class Details</h4>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-semester">Semester</label>
+                                        {{ current_profile_form.semester }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-branch">Branch</label>
-                                        <input type="text" name="year" placeholder="Branch..." class="form-control" id="form-branch" list="br">
-                                        <datalist id="br">
-                                            <option value="C"></option>
-                                            <option value="EE"></option>
-                                            <option value="CSE"></option>
-                                            <option value="IT"></option>
-                                            <option value="ME"></option>
-                                            <option value="ECE"></option>
-                                        </datalist>
+                                        {{ current_profile_form.branch }}
                                     </div>
-
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next">Next</button>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <div class="form-top">
-                                    <div class="form-top-left">
-                                        <h3>Step 3 / 4</h3>
-                                        <p>Previous Educationals Details(All):</p>
-                                    </div>
-                                    <div class="form-top-right">
-                                        <i class="fa fa-book"></i>
-                                    </div>
-                                </div>
-                                <div class="form-bottom">
                                     <div class="form-group">
+                                        <label class="sr-only" for="form-section">Section</label>
+                                        {{ current_profile_form.section }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-batch">Batch</label>
+                                        {{ current_profile_form.batch }}
+                                    </div>
+                             </div>
+                             <div class="col-lg-3 col-md-3 col-sm-12">
+                                    <div class="form-group">
+                                        <h4>Semester Percentage(I-VIII)</h4>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-sem1">Semester 1</label>
+                                        {{ current_profile_form.per_sem1 }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-sem2">Semester 2</label>
+                                        {{ current_profile_form.per_sem2 }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-sem3">Semester 3</label>
+                                        {{ current_profile_form.per_sem3 }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-sem4">Semester 4</label>
+                                        {{ current_profile_form.per_sem4 }}
+                                    </div>
+                             </div>
+                             <div class="col-lg-3 col-md-3 col-sm-12">
+                                    <div class="form-group">
+                                        <h4>(Leave blank if not known !)</h4>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-sem5">Semester 5</label>
+                                        {{ current_profile_form.per_sem5 }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-sem6">Semester 6</label>
+                                        {{ current_profile_form.per_sem6 }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-sem7">Semester 7</label>
+                                        {{ current_profile_form.per_sem7 }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-sem8">Semester 8</label>
+                                        {{ current_profile_form.per_sem8 }}
+                                    </div>
+                                    <button type="submit" class="btn" name="update" value="update_current">Update</button>
+                             </div>
+                        </fieldset>
+                        </form>
+                    </div>
+                    <div id="previous" class="tab-pane fade" style="border-radius:5px;background: #eee; margin-top:5px; padding-bottom:10px;">
+                        <form role="form" action="{% url 'website.views.user_profile' %}" method="post" class="prev-acad-form">
+                        {% csrf_token %}
+                                <fieldset>
+                                    <br>
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <div class="form-group">
+                                            <h4>Admission Details</h4>
+                                        </div>
+                                        <div class="form-group">
                                         <label class="sr-only" for="form-mode">Mode</label>
-                                        <input type="text" name="mode" placeholder="Mode of Admission..." class="form-control" id="form-mode">
-                                    </div>
-                                    <div class="form-group">
+                                        {{ previous_profile_form.admission_mode }}
+                                        </div>
+                                        <div class="form-group">
                                         <label class="sr-only" for="form-rank">Rank</label>
-                                        <input type="text" name="form-rank" placeholder="RPET/AIEEE Rank..." class="form-control" id="form-rank">
+                                        {{ previous_profile_form.admission_rank }}
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-ssp">12th precentage</label>
-                                        <input type="text" name="ssp" placeholder="12th Precentage..." class="form-control" id="form-ssp">
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <div class="form-group">
+                                            <h4>12th Class Details</h4>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="sr-only" for="form-twfp">12th Precentage</label>
+                                            {{ previous_profile_form.percentage_twelfth }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-twfboard">12th Board</label>
+                                        {{ previous_profile_form.board_twelfth }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-twfmedium">12th Medium</label>
+                                        {{ previous_profile_form.medium_twelfth }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-twfschool">School</label>
+                                        {{ previous_profile_form.school_twelfth }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-twfyear">Year of passing (XII)</label>
+                                        {{ previous_profile_form.year_twelfth }}
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-board">Board</label>
-                                        <input type="text" name="board" placeholder="Board..." class="form-control" id="form-board">
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <div class="form-group">
+                                            <h4>10th Class Details</h4>
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-tp">10th Precentage</label>
+                                        {{ previous_profile_form.percentage_tenth }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-tboard">10th Board</label>
+                                        {{ previous_profile_form.board_tenth }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-tmedium">10th Medium</label>
+                                        {{ previous_profile_form.medium_tenth }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-tschool">School</label>
+                                        {{ previous_profile_form.school_tenth }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-tyear">Year of passing (X)</label>
+                                        {{ previous_profile_form.year_tenth }}
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-sp">10th precentage</label>
-                                        <input type="text" name="sp" placeholder="10th Precentage..." class="form-control" id="form-sp">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-school">School</label>
-                                        <input type="text" name="school" placeholder="School..." class="form-control" id="form-school">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-medium">Medium</label>
-                                        <input type="text" list="med" name="medium" placeholder="Medium..." class="form-control" id="form-medium">
-                                        <datalist id="med">
-                                            <option value="English"></option>
-                                            <option value="Hindi"></option>
-                                        </datalist>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-ssyear">Year of passing (XII)</label>
-                                        <input type="text" name="ssyear" placeholder="Year of passing (XII)..." class="form-control" id="form-ssyear">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-syear">Year of passing (X)</label>
-                                        <input type="text" name="syear" placeholder="Year of passing (X)..." class="form-control" id="form-syear">
-                                    </div>
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next">Next</button>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <div class="form-top">
-                                    <div class="form-top-left">
-                                        <h3>Step 3 / 4</h3>
-                                        <p>Previous Educationals Details(Diploma):</p>
-                                    </div>
-                                    <div class="form-top-right">
-                                        <i class="fa fa-book"></i>
-                                    </div>
-                                </div>
-                                <div class="form-bottom">
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-dcollege">College</label>
-                                        <input type="text" name="dcollege" placeholder="College Name..." class="form-control" id="form-dcollege">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-stream">Stream</label>
-                                        <input type="text" name="stream" placeholder="Stream..." class="form-control" id="form-stream">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="form-dp">Precentage</label>
-                                        <input type="text" name="dp" placeholder="Precentage..." class="form-control" id="form-dp">
-                                    </div>
-                                    <div class="form-group">
+                                    <div class="col-lg-3 col-md-3 col-sm-12">
+                                        <div class="form-group">
+                                            <h4>Diploma Details</h4>
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-dp">Diploma Precentage</label>
+                                        {{ previous_profile_form.percentage_diploma }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-dstream">Stream</label>
+                                        {{ previous_profile_form.stream_diploma }}
+                                        </div>
+                                        <div class="form-group">
                                         <label class="sr-only" for="form-dyear">Year of passing</label>
-                                        <input type="text" name="dyear" placeholder="Year of passing..." class="form-control" id="form-dyear">
+                                            {{ previous_profile_form.year_diploma }}
+                                        </div>
+                                        <div class="form-group">
+                                        <label class="sr-only" for="form-dcollege">College</label>
+                                        {{ previous_profile_form.college_diploma }}
+                                        </div>
+                                        <button type="submit" class="btn" name="update" value="update_previous">Update</button>
                                     </div>
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next">Next</button>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <div class="form-top">
-                                    <div class="form-top-left">
-                                        <h3>Step 4 / 4</h3>
-                                        <p>Additional Details:</p>
+                                </fieldset>
+                            </form>
+                    </div>
+                    <div id="additional" class="tab-pane fade" style="border-radius:5px;background: #eee; margin-top:5px; padding-bottom:10px;">
+                        <form role="form" action="{% url 'website.views.user_profile' %}" method="post" class="addtional-form">
+                        {% csrf_token %}
+                        <fieldset>
+                          <br>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                            <h4>Father's Details</h4>
                                     </div>
-                                    <div class="form-top-right">
-                                        <i class="fa fa-send"></i>
-                                    </div>
-                                </div>
-                                <div class="form-bottom">
                                     <div class="form-group">
                                         <label class="sr-only" for="form-fname">Father's Name</label>
-                                        <input type="text" name="fname" placeholder="Father's Name..." class="form-control" id="form-fname">
+                                        {{ additional_profile_form.father_name }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-fcontact">Father's Contact</label>
-                                        <input type="text" name="fcontact" placeholder="Father's Contact..." class="form-control" id="form-fcontact">
+                                        {{ additional_profile_form.father_contact }}
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="sr-only" for="form-occupation">Father's Occupation</label>
+                                        {{ additional_profile_form.father_occupation }}
+                                    </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                            <h4>Mother's Details</h4>
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-mname">Mothers's Name</label>
-                                        <input type="text" name="mname" placeholder="Mother's Name..." class="form-control" id="form-mname">
+                                        {{ additional_profile_form.mother_name }}
                                     </div>
-
                                     <div class="form-group">
                                         <label class="sr-only" for="form-mcontact">Mother's Contact</label>
-                                        <input type="text" name="mcontact" placeholder="Mother's Contact..." class="form-control" id="form-mcontact">
+                                        {{ additional_profile_form.mother_contact }}
                                     </div>
                                     <div class="form-group">
-                                        <label class="sr-only" for="form-occupation">Occupation</label>
-                                        <input type="text" name="occupation" placeholder="Occupation..." class="form-control" id="form-occupation">
+                                        <label class="sr-only" for="form-occupation">Mother's Occupation</label>
+                                        {{ additional_profile_form.mother_occupation }}
+                                    </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                            <h4>Other Details</h4>
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-gcontact">Gurdian Contact</label>
-                                        <input type="text" name="gcontact" placeholder="Gurdian's Contact..." class="form-control" id="form-gcontact">
+                                        {{ additional_profile_form.guardian_contact }}
                                     </div>
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="button" class="btn btn-next">Next</button>
-                                </div>
-                            </fieldset>
-
-                            <fieldset>
-                                <div class="form-top">
-                                    <div class="form-top-left">
-                                        <h3>Step 4 / 4</h3>
-                                        <p>Additional Details 2:</p>
-                                    </div>
-                                    <div class="form-top-right">
-                                        <i class="fa fa-envelope"></i>
-                                    </div>
-                                </div>
-                                <div class="form-bottom">
                                     <div class="form-group">
                                         <label class="sr-only" for="form-presentaddr">present address</label>
-                                        <textarea name="presentaddr" placeholder="Present Address..." class="form-control" id="form-presentaddr"></textarea>
+                                        {{ additional_profile_form.present_address }}
                                     </div>
                                     <div class="form-group">
                                         <label class="sr-only" for="form-permanentaddr">Permanent Address</label>
-                                        <textarea name="permanentaddr" placeholder="Permanent Address..." class="form-control" id="form-permanentaddr"></textarea>
+                                        {{ additional_profile_form.permanent_address }}
                                     </div>
-                                    <button type="button" class="btn btn-previous">Previous</button>
-                                    <button type="submit" class="btn">Update</button>
-                                </div>
-                            </fieldset>
+                                    <button type="submit" class="btn" name="update" value="update_additional">Update</button>
+                            </div>
+                          </fieldset>
                         </form>
                     </div>
                 </div>
-             </div>
+            </div>
     </div>
 {% endblock %}

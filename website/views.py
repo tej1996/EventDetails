@@ -1,10 +1,11 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from website.event_form import EventForm
-from website.forms import UserForm, UserProfileForm
-from website.models import Event
+from website.forms import UserForm, UserProfileForm, BasicProfileForm, CurrentAProfileForm,PreviousAProfileForm,AdditionalProfileForm
+from website.models import Event, UserProfile
 
 
 def index(request):
@@ -152,3 +153,72 @@ def new_event(request):
     else:
         form = EventForm()  # an unboundform
         return render(request, 'website/dashboard.html', {'form': form})
+
+
+def user_profile(request):
+
+    if request.user.is_authenticated():
+        user = get_object_or_404(User, username=request.user.username)
+        userprofile = get_object_or_404(UserProfile, user=user)
+
+        user_form = UserForm(instance=user)
+        basic_profile_form = BasicProfileForm(instance=userprofile)
+        current_profile_form = CurrentAProfileForm(instance=userprofile)
+        previous_profile_form = PreviousAProfileForm(instance=userprofile)
+        additional_profile_form = AdditionalProfileForm(instance=userprofile)
+        message = ""
+
+        if request.POST.get('update') == 'update_basic':
+            if request.method == 'POST':
+                basic_profile_form = BasicProfileForm(data=request.POST, instance=userprofile)
+
+                if basic_profile_form.is_valid():
+                    userprofile = basic_profile_form.save()
+                    userprofile.save()
+                    message = 'Successfully Updated!'
+                else:
+                    print("Profile Form Errors" + str(basic_profile_form.errors))
+        else:
+            if request.POST.get('update') == 'update_current':
+                if request.method == 'POST':
+                    current_profile_form = CurrentAProfileForm(data=request.POST, instance=userprofile)
+
+                    if current_profile_form.is_valid():
+                        userprofile = current_profile_form.save()
+                        userprofile.save()
+                        message = 'Successfully Updated!'
+                    else:
+                        print("Profile Form Errors" + str(current_profile_form.errors))
+            else:
+                if request.POST.get('update') == 'update_previous':
+                    if request.method == 'POST':
+                        previous_profile_form = PreviousAProfileForm(data=request.POST, instance=userprofile)
+
+                        if previous_profile_form.is_valid():
+                            userprofile = previous_profile_form.save()
+                            userprofile.save()
+                            message = 'Successfully Updated!'
+                        else:
+                            print("Profile Form Errors" + str(previous_profile_form.errors))
+                else:
+                    if request.POST.get('update') == 'update_additional':
+                        if request.method == 'POST':
+                            additional_profile_form = AdditionalProfileForm(data=request.POST, instance=userprofile)
+
+                            if additional_profile_form.is_valid():
+                                userprofile = additional_profile_form.save()
+                                userprofile.save()
+                                message = 'Successfully Updated!'
+                            else:
+                                print("Profile Form Errors" + str(additional_profile_form.errors))
+                    else:
+                        message = ""
+
+        return render(request, 'website/profile.html', {'message:': message,
+                                                        'user_form': user_form,
+                                                        'basic_profile_form': basic_profile_form,
+                                                        'current_profile_form': current_profile_form,
+                                                        'previous_profile_form': previous_profile_form,
+                                                        'additional_profile_form': additional_profile_form, })
+    else:
+        return redirect('/')
