@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-style.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-elements.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/headstyle.css' %}"/>
-
+    {% load cloudinary %}
 {% endblock %}
 
 {% block dashboard %}
@@ -31,7 +31,7 @@
 
                 <div class="tab-content">
                     <div id="basic" class="tab-pane fade in active" style="border-radius: 5px;background: #eee;margin-top:5px; padding-bottom:10px;">
-                        <form role="form" action="{% url 'website.views.user_profile' %}" method="post" class="basic-profile-form">
+                        <form role="form" enctype="multipart/form-data" action="{% url 'website.views.user_profile' %}" method="post" class="basic-profile-form">
                         {% csrf_token %}
                         <fieldset>
                             <style>
@@ -74,15 +74,27 @@
                                         </div>
                                         <div class="form-group">
                                         <label class="btn btn-info" for="my-file-selector">
-                                            <input id="my-file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());"> Upload Photo
+                                            <input id="my-file-selector" name="passphoto" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());" > Upload Photo
                                         </label>
                                         <span class='label label-info' id="upload-file-info"></span>
+                                            {% autoescape off %}
+                                                {{ currpassphoto }}
+                                            {% endautoescape %}
+                                        <br>
+                                            File size should be less than 300Kb.
+                                            {{ upload_error }}
                                         </div>
                                         <div class="form-group">
-                                        <label class="btn btn-info" for="my-file-selector">
-                                            <input id="my-file-selector" type="file" style="display:none;" onchange="$('#upload-file-info').html($(this).val());"> Upload Signature
+                                        <label class="btn btn-info" for="my-file-selector-sign">
+                                            <input id="my-file-selector-sign" name="sign" type="file" style="display:none;" onchange="$('#upload-file-info-sign').html($(this).val());"> Upload Signature
                                         </label>
-                                        <span class='label label-info' id="upload-file-info"></span>
+                                        <span class='label label-info' id="upload-file-info-sign"></span>
+                                            {% autoescape off %}
+                                                {{ sign }}
+                                            {% endautoescape %}
+                                        <br>
+                                            File size should be less than 300Kb.
+                                            {{ upload_error }}
                                         </div>
                                         <button type="submit" class="btn" name="update" value="update_basic">Update</button>
                              </div>

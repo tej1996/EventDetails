@@ -23,8 +23,11 @@ class UserProfile(models.Model):
     birthplace = models.CharField(max_length=15, default=None, blank=True, null=True)
     contact = models.CharField(validators=[phone_regex], max_length=10, default=None, blank=True, null=True)
     alternate_contact = models.CharField(validators=[phone_regex], max_length=10, default=None, blank=True, null=True)
-    # photo
-    # signature
+    p_up_count = models.IntegerField(default=0, blank=True, null=True)
+    s_up_count = models.IntegerField(default=0, blank=True, null=True)
+    passphoto = models.CharField(default=None, max_length=250, blank=True, null=True)
+    sign = models.CharField(default=None, max_length=250, blank=True, null=True)
+
 
     # Current Academic Details
     class_rno = models.IntegerField(default=None, blank=True, null=True)

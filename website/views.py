@@ -1,3 +1,8 @@
+import datetime
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
@@ -6,6 +11,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from website.event_form import EventForm
 from website.forms import UserForm, UserProfileForm, BasicProfileForm, CurrentAProfileForm,PreviousAProfileForm,AdditionalProfileForm
 from website.models import Event, UserProfile
+cloudinary.config(
+  cloud_name="tej-mycloud",
+  api_key="191512437269526",
+  api_secret="s8ETWsWk-Z0N4z_MnPJ4xnWkqPc"
+)
 
 
 def index(request):
@@ -167,13 +177,44 @@ def user_profile(request):
         previous_profile_form = PreviousAProfileForm(instance=userprofile)
         additional_profile_form = AdditionalProfileForm(instance=userprofile)
         message = ""
+        upload_error = ""
 
         if request.POST.get('update') == 'update_basic':
             if request.method == 'POST':
-                basic_profile_form = BasicProfileForm(data=request.POST, instance=userprofile)
+                basic_profile_form = BasicProfileForm(request.POST, request.FILES, instance=userprofile)
 
                 if basic_profile_form.is_valid():
+
+                    if 'passphoto' in request.FILES:
+                        if request.FILES['passphoto']:
+                            if request.FILES['passphoto'].size <= 300000:
+                                p_up_count = userprofile.p_up_count
+                                p_up_count += 1
+                                if userprofile.passphoto is not None and userprofile.passphoto!="":
+                                    cloudinary.uploader.destroy(userprofile.passphoto, invalidate=True, type='authenticated')
+                                cloudinary.uploader.upload(request.FILES['passphoto'],
+                                                           public_id=user.username + "/passportV" + str(p_up_count),
+                                                           type='authenticated')
+                                userprofile.passphoto = user.username + "/passportV" + str(p_up_count)
+                                userprofile.p_up_count = p_up_count
+                            else:
+                                upload_error = "File size too large!"
+                    if 'sign' in request.FILES:
+                        if request.FILES['sign']:
+                            if request.FILES['sign'].size <= 300000:
+                                s_up_count = userprofile.s_up_count
+                                s_up_count += 1
+                                if userprofile.sign is not None and userprofile.sign != "":
+                                    cloudinary.uploader.destroy(userprofile.sign, invalidate=True, type='authenticated')
+                                cloudinary.uploader.upload(request.FILES['sign'],
+                                                           public_id=user.username + "/signV" + str(s_up_count),
+                                                           type='authenticated')
+                                userprofile.sign = user.username + "/signV" + str(s_up_count)
+                                userprofile.s_up_count = s_up_count
+                            else:
+                                upload_error = "File size too large!"
                     userprofile = basic_profile_form.save()
+                    userprofile.age = int((datetime.date.today() - userprofile.dob).days / 365.25)
                     userprofile.save()
                     message = 'Successfully Updated!'
                 else:
@@ -213,12 +254,17 @@ def user_profile(request):
                                 print("Profile Form Errors" + str(additional_profile_form.errors))
                     else:
                         message = ""
-
+        currpassphoto = cloudinary.CloudinaryImage(userprofile.passphoto).image(sign_url=True, width=0.5,
+                                                                                type='authenticated')
+        sign = cloudinary.CloudinaryImage(userprofile.sign).image(sign_url=True, width=0.3, type='authenticated')
         return render(request, 'website/profile.html', {'message:': message,
                                                         'user_form': user_form,
                                                         'basic_profile_form': basic_profile_form,
                                                         'current_profile_form': current_profile_form,
                                                         'previous_profile_form': previous_profile_form,
-                                                        'additional_profile_form': additional_profile_form, })
+                                                        'additional_profile_form': additional_profile_form,
+                                                        'currpassphoto': currpassphoto,
+                                                        'sign': sign,
+                                                        'upload_error': upload_error})
     else:
         return redirect('/')

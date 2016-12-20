@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
+from django.forms.extras import SelectDateWidget
+from datetime import datetime
 
 from website.models import UserProfile
 
@@ -47,13 +49,14 @@ class BasicProfileForm(forms.ModelForm):
                ('F', 'Female')]
     gender = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect)
 
+    dob = forms.DateField(widget=SelectDateWidget(years=range(1980, 2017)))
+
     class Meta:
         model = UserProfile
         fields = ('name', 'dob', 'gender', 'birthplace', 'contact', 'alternate_contact',)
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Enter Name',
                                            'id': 'form-name', 'class': 'form-control'}),
-            'dob': forms.DateInput(format='%d-%m-%Y', attrs={'class': 'form-control', 'type': 'date'}),
 
             'birthplace': forms.TextInput(attrs={'placeholder': 'Enter Birth Place',
                                                  'id': 'form-birthplace', 'class': 'form-control'}),
