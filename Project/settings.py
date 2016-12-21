@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'Project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'project_db',
+        'NAME': 'project_dbsec',
         'ENGINE': 'mysql.connector.django',
         'USER': 'root',
         'PASSWORD': '',

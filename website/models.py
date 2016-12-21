@@ -3,6 +3,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 
 # Create your models here.
+# db project_dbsec
 
 
 class UserProfile(models.Model):
@@ -86,8 +87,35 @@ class UserProfile(models.Model):
 
 
 class Event(models.Model):
-    event_name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20)
     description = models.CharField(max_length=50)
     start_date = models.DateField()
     end_date = models.DateField()
-    by = models.IntegerField(default=23)
+    by = models.IntegerField()
+
+    def __unicode__(self):
+        return self.event_name
+
+
+class Invite(models.Model):
+    eve = models.ForeignKey(Event, on_delete=models.CASCADE)
+    category = models.CharField(max_length=8)
+
+
+class EventFields(models.Model):
+    name = models.BooleanField(default=False)
+    dob = models.BooleanField(default=False)
+    age = models.BooleanField(default=False)
+    gender = models.BooleanField(default=False)
+    contact = models.BooleanField(default=False)
+    univ_rno = models.BooleanField(default=False)
+    batch = models.BooleanField(default=False)
+    father_name = models.BooleanField(default=False)
+    mother_name = models.BooleanField(default=False)
+    event = models.OneToOneField(Event,null=True, blank=True, default=None, on_delete=models.CASCADE)
+
+
+class Entries(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    userprofile = models.ForeignKey(UserProfile,null=True, blank=True, default=None)
+

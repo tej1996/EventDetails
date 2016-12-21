@@ -10,7 +10,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 # Create your views here.
 from website.event_form import EventForm
 from website.forms import UserForm, UserProfileForm, BasicProfileForm, CurrentAProfileForm,PreviousAProfileForm,AdditionalProfileForm
-from website.models import Event, UserProfile
+from website.models import Event, UserProfile, Entries, EventFields,Invite
 cloudinary.config(
   cloud_name="tej-mycloud",
   api_key="191512437269526",
@@ -20,13 +20,6 @@ cloudinary.config(
 
 def index(request):
     return render(request, 'website/index.html')
-
-
-def dashboard(request):
-    if request.user.is_authenticated():
-        return render(request, 'website/dashboard.html')
-    else:
-        return redirect('/')
 
 
 def profile(request):
@@ -141,30 +134,6 @@ def user_logout(request):
     return redirect('/')
 
 
-def new_event(request):
-    if request.method == 'POST':  # if the form has been filled
-
-        form = EventForm(request.POST)
-
-        if form.is_valid():  # All the data is valid
-            name = request.POST.get('event_name', '')
-            desc = request.POST.get('description', '')
-            s_date = request.POST.get('start_date', '')
-            e_date = request.POST.get('end_date', '')
-
-        # creating an user object containing all the data
-        event_obj = Event(event_name=name, description=desc, start_date=s_date, end_date=e_date)
-
-        # saving all the data in the current object into the database
-        event_obj.save()
-
-        return render(request, 'website/dashboard.html')
-
-    else:
-        form = EventForm()  # an unboundform
-        return render(request, 'website/dashboard.html', {'form': form})
-
-
 def user_profile(request):
 
     if request.user.is_authenticated():
@@ -266,5 +235,104 @@ def user_profile(request):
                                                         'currpassphoto': currpassphoto,
                                                         'sign': sign,
                                                         'upload_error': upload_error})
+    else:
+        return redirect('/')
+
+
+def new_event(request):
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            event_form = EventForm(request.POST)
+            message = ''
+            if event_form.is_valid():
+                event = event_form.save(commit=False)
+                event.by = request.user.id
+                event.save()
+                for cat in request.POST.getlist('category'):
+                    invite = Invite(eve=event, category=cat)
+                    invite.save()
+
+                selected_fields = request.POST.getlist('fields')
+                fields = EventFields()
+
+                if 'name' in selected_fields:
+                    fields.name = True
+                if 'age' in selected_fields:
+                    fields.age = True
+                if 'gender' in selected_fields:
+                    fields.gender = True
+                if 'dob' in selected_fields:
+                    fields.dob = True
+                if 'contact' in selected_fields:
+                    fields.contact = True
+                if 'batch' in selected_fields:
+                    fields.batch = True
+                if 'father_name' in selected_fields:
+                    fields.father_name = True
+                if 'mother_name' in selected_fields:
+                    fields.mother_name = True
+                if 'univ_rno' in selected_fields:
+                    fields.univ_rno = True
+                fields.event = event
+                fields.save()
+                message += 'Event Created Successfully.'
+            else:
+                message += 'Details are incorrect.'
+            return redirect(dashboard)
+
+        else:
+            redirect(dashboard)
+
+
+def delete_event(request, eventid):
+    obj = Event.objects.get(id=eventid)
+    obj.delete()
+    return redirect(dashboard)
+
+
+def dashboard(request):
+    if request.user.is_authenticated():
+        event_form = EventForm()
+        my_events = Event.objects.filter(by=request.user.id)
+        message = ''
+        user_category = UserProfile.objects.get(id=request.user.id).branch
+        current_user_id = request.user.id
+        expired_events = Invite.objects.filter(eve__start_date__lte=datetime.date.today())
+        registered = Entries.objects.filter(userprofile__user_id=current_user_id)
+        active_events = Invite.objects.filter(category=user_category).exclude(eve__entries__userprofile__user_id
+                                                                              =current_user_id).exclude(eve__start_date__lte=datetime.date.today())
+        if not my_events:
+            message += 'You did not created any event yet. '
+        if not active_events:
+            message += 'No active events.'
+
+        return render(request, 'website/dashboard.html', {'my_events': my_events, 'active_events': active_events,
+                                                          'event_form': event_form, 'registered': registered,
+                                                          'expired_events': expired_events, 'message': message})
+    else:
+        return redirect('/')
+
+
+def allow(request, eid):
+    entries = Entries()
+    current_user_id = request.user.id
+    user_profile = UserProfile.objects.get(user_id=current_user_id)
+    entries.userprofile = user_profile
+    entries.event = Event.objects.get(id=eid)
+    entries.save()
+    return redirect(dashboard)
+
+
+def entries(request, eventid):
+    if request.user.is_authenticated():
+        myevent = Event.objects.get(id=eventid)
+        if myevent.by == request.user.id:
+            entry = Entries.objects.filter(event_id=eventid)
+            event_details = Event.objects.get(id=eventid)
+            columns = EventFields.objects.get(event_id=eventid)
+            return render(request, 'website/entries.html', {'entry': entry, 'event_details': event_details,
+                                                            'columns': columns})
+        else:
+            return redirect(dashboard)
     else:
         return redirect('/')

@@ -11,4 +11,7 @@ urlpatterns = [
     url(r'^dashboard/$', views.dashboard, name='dashboard'),
     url(r'^profile/$', views.user_profile, name='profile'),
     url(r'^new-event/$', views.new_event, name='new-event'),
+    url(r'^delete-event/(?P<eventid>\d+)$', views.delete_event, name='delete-event'),
+    url(r'^allow/(?P<eid>\d+)/$', views.allow, name='allow'),
+    url(r'^entries/(?P<eventid>\d+)/$', views.entries, name='entires')
 ]
