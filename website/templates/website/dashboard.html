@@ -9,7 +9,99 @@
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-style.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-elements.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/headstyle.css' %}"/>
+    <style>
+        .alert {
+  border-radius: 0;
+  -webkit-border-radius: 0;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.11);
+  display: table;
+  width: 100%;
+}
+
+.alert-white {
+  background-image: linear-gradient(to bottom, #fff, #f9f9f9);
+  border-top-color: #d8d8d8;
+  border-bottom-color: #bdbdbd;
+  border-left-color: #cacaca;
+  border-right-color: #cacaca;
+  color: #404040;
+  padding-left: 61px;
+  position: relative;
+}
+
+.alert-white.rounded {
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+.alert-white.rounded .icon {
+  border-radius: 3px 0 0 3px;
+  -webkit-border-radius: 3px 0 0 3px;
+}
+
+.alert-white .icon {
+  text-align: center;
+  width: 45px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border: 1px solid #bdbdbd;
+  padding-top: 15px;
+}
+
+
+.alert-white .icon:after {
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  display: block;
+  content: '';
+  width: 10px;
+  height: 10px;
+  border: 1px solid #bdbdbd;
+  position: absolute;
+  border-left: 0;
+  border-bottom: 0;
+  top: 50%;
+  right: -6px;
+  margin-top: -3px;
+  background: #fff;
+}
+
+.alert-white .icon i {
+  font-size: 20px;
+  color: #fff;
+  left: 12px;
+  margin-top: -10px;
+  position: absolute;
+  top: 50%;
+}
+.alert-info {
+  background-color: #d9edf7;
+  border-color: #98cce6;
+  color: #3a87ad;
+}
+
+.alert-white.alert-info .icon,
+.alert-white.alert-info .icon:after {
+  border-color: #3a8ace;
+  background: #4d90fd;
+}
+
+    </style>
     <script src="{% static 'website/js/event-form.js' %}"></script>
+    <script>
+        $(function(){
+            if($('#msg').text()) {
+                $('.message').show();
+            }
+            else
+                $('.message').hide();
+        });
+    </script>
 
 {% endblock %}
 
@@ -21,7 +113,14 @@
                         <h1 class="page-header">Dashboard</h1>
                         {% if user.is_authenticated %}
                             <p>Hello,{{ user.username }}</p>
-                            <p> {{ message }}</p>
+                            <div class="alert alert-info alert-white rounded message">
+                                <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+                                <div class="icon">
+                                    <i class="fa fa-info-circle"></i>
+                                </div>
+                                <strong id="msg">{{ message }}</strong>
+
+                            </div>
                         {% endif %}
                     </div>
                 </div>
@@ -49,10 +148,10 @@
                                         {{ act_event.eve.description }}
                                     </div>
                                     <div class="col-xs-12">
-                                        {{ act_event.eve.start_date }}
+                                        event start on:{{ act_event.eve.start_date }}
                                     </div>
                                     <div class="col-xs-12">
-                                        {{ act_event.eve.end_date }}
+                                        entry close on:{{ act_event.eve.end_date }}
                                     </div>
                                 </div>
                             </div>
@@ -85,10 +184,10 @@
                                                     {{ myevent.name}}
                                                 </div>
                                                 <div class="col-xs-12">
-                                                    {{ myevent.start_date }}
+                                                    event start on:{{ myevent.start_date }}
                                                 </div>
                                                 <div class="col-xs-12">
-                                                    {{ myevent.end_date }}
+                                                    entry close on:{{ myevent.end_date }}
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +219,6 @@
                     </div>
 
                     <div id="expired" class="tab-pane fade">
-
                         <div class="row">
                         <br>
                             {% for event in expired_events %}
@@ -132,10 +230,10 @@
                                                 {{ event.eve.name }}
                                             </div>
                                             <div class="col-xs-12">
-                                                {{ event.eve.start_date }}
+                                                event start on:{{ event.eve.start_date }}
                                             </div>
                                             <div class="col-xs-12">
-                                                Last Date: 25 August 2016
+                                                entry close on:{{ event.eve.end_date }}
                                             </div>
                                         </div>
                                     </div>
@@ -145,7 +243,8 @@
                                             <span class="pull-left"><i class="fa fa-clock-o fa-2x"></i></span>
                                         </a>
                                         <a href="#">
-                                            <span class="pull-right">2 days ago</span>
+
+                                            <span class="pull-right">{{ event.eve.end_date }}</span>
                                         </a>
                                         <div class="clearfix"></div>
                                     </div>
@@ -168,7 +267,7 @@
                                                 {{ registered_event.event.name }}
                                             </div>
                                             <div class="col-xs-12">
-                                                {{ registered_event.event.start_date }}
+                                                event start on:{{ registered_event.event.start_date }}
                                             </div>
                                             <div class="col-xs-12">
                                                 {{ registered_event.event.end_date }}
@@ -215,13 +314,13 @@
                             </div>
                             <!-- End Date & Time-->
                             <div class="form-group">
-                              <label class="col-md-4 control-label" for="event_start_date">Start Date</label>
+                              <label class="col-md-4 control-label" for="event_start_date">Event Start On</label>
                               <div class="col-md-4">
                                 {{ event_form.start_date }}
                               </div>
                             </div>
                             <div class="form-group">
-                              <label class="col-md-4 control-label" for="event_end_date">End Date</label>
+                              <label class="col-md-4 control-label" for="event_end_date">Entry Closed on</label>
                               <div class="col-md-4">
                                 {{ event_form.end_date }}
                               </div>
@@ -249,63 +348,61 @@
                                 <div class="col-md-4">
                                     <select name="fields" id='optgroup' multiple='multiple'>
                                         <optgroup label='Basic Profile'>
-                                            <option value='name'>Name</option>
+                                            <option value='name' selected >Name</option>
                                             <option value='dob'>Date of Birth</option>
-                                            <option value='gender'>Gender</option>
-                                            <option value='5'>Birth Place</option>
-                                            <option value='contact'>Contact No.</option>
-                                            <option value='7'>Alternate Contact No.</option>
                                             <option value='age'>Age</option>
-                                            <option value='9'>Passport Size Photo</option>
-                                            <option value='10' selected>Signature</option>
+                                            <option value='gender'>Gender</option>
+                                            <option value='birthplace'>Birth Place</option>
+                                            <option value='contact'>Contact No.</option>
+                                            <option value='alternate_contact'>Alternate Contact No.</option>
+                                            <option value='passphoto'>Passport Size Photo</option>
+                                            <option value='sign'>Signature</option>
                                         </optgroup>
-                                        <optgroup label='Current Education Details'>
-                                            <option value='11'>Class Roll No.</option>
+                                        <optgroup label='Current Academic Details'>
+                                            <option value='class_rno'>Class Roll No.</option>
                                             <option value='univ_rno'>University Roll No.</option>
-                                            <option value='13'>Current Semester</option>
-                                            <option value='14'>Section</option>
+                                            <option value='semester'>Current Semester</option>
+                                            <option value='section'>Section</option>
                                             <option value='batch'>Batch</option>
-                                            <option value='16'>Name of College</option>
+                                            <option value='branch'>Branch</option>
+                                            <option value='college'>College</option>
+                                            <option value='per_sem1'>Semester 1</option>
+                                            <option value='per_sem2'>Semester 2</option>
+                                            <option value='per_sem3'>Semester 3</option>
+                                            <option value='per_sem4'>Semester 4</option>
+                                            <option value='per_sem5'>Semester 5</option>
+                                            <option value='per_sem6'>Semester 6</option>
+                                            <option value='per_sem7'>Semester 7</option>
+                                            <option value='per_sem8'>Semester 8</option>
                                         </optgroup>
-                                        <optgroup label='Semester Percentage'>
-                                            <option value='17'>I Semester</option>
-                                            <option value='18'>II Semester</option>
-                                            <option value='19'>III Semester</option>
-                                            <option value='20'>IV Semester</option>
-                                            <option value='21'>V Semester</option>
-                                            <option value='22'>VI Semester</option>
-                                            <option value='23'>VII Semester</option>
-                                            <option value='24'>VIII Semester</option>
-                                            <option value='25'>Aggregate</option>
-                                        </optgroup>
-                                        <optgroup label='Previous Education Details'>
-                                            <option value='26'>Mode of Admission</option>
-                                            <option value='27'>AIEEE/RPET Rank</option>
-                                            <option value='28'>10th Percentage</option>
-                                            <option value='29'>10th Board</option>
-                                            <option value='30'>Year of Passing(10th)</option>
-                                            <option value='31'>Name of School (10th)</option>
-                                            <option value='32'>Medium (Hindi/English) (10th class) </option>
-                                            <option value='33'>12th Percentage</option>
-                                            <option value='34'>12th Board</option>
-                                            <option value='35'>Year of Passing(12th)</option>
-                                            <option value='36'>Name of School (12th)</option>
-                                            <option value='37'>Medium (Hindi/English) (12th class) </option>
-                                            <option value='38'>Diploma Percentage</option>
-                                            <option value='39'>Year of Passing Diploma</option>
-                                            <option value='40'>Stream In Diploma</option>
-                                            <option value='41'>Name of Diploma College</option>
+                                        <optgroup label='Previous Academic details'>
+                                            <option value='admission_mode'>Admission Mode</option>
+                                            <option value='admission_rank'>Admission Rank</option>
+                                            <option value='percentage_tenth'>10th Percentage</option>
+                                            <option value='board_tenth'>10th Board</option>
+                                            <option value='medium_tenth'>10th Medium</option>
+                                            <option value='year_tenth'> 10th Year</option>
+                                            <option value='school_tenth'>10th School</option>
+                                            <option value='percentage_twelfth'>12th Percentage</option>
+                                            <option value='board_twelfth'>12th Board</option>
+                                            <option value='medium_twelfth'>12th Medium</option>
+                                            <option value='year_twelfth'>12th year</option>
+                                            <option value='school_twelfth'>12th School</option>
+                                            <option value='percentage_diploma'>Diploma Percentage</option>
+                                            <option value='stream_diploma'>Diploma Stream</option>
+                                            <option value='year_diploma'>Diploma Year</option>
+                                            <option value='college_diploma'>Diploma College</option>
                                         </optgroup>
                                         <optgroup label='Addtional Details'>
-                                            <option value='42'>Permanent Address</option>
-                                            <option value='43'>Present Address</option>
                                             <option value='father_name'>Father's Name</option>
-                                            <option value='45'>Father's Occupation</option>
-                                            <option value='46'>Father's Contact No.</option>
+                                            <option value='father_contact'>Father's Contact No.</option>
+                                            <option value='father_occupation'>Father's Occupation</option>
                                             <option value='mother_name'>Mother's Name</option>
-                                            <option value='48'>Mother's Occupation</option>
-                                            <option value='49'>Mother's Contact No.</option>
-                                            <option value='50'>Guardian's Contact No.</option>
+                                            <option value='mother_contact'>Mother's Contact No.</option>
+                                            <option value='mother_occupation'>Mother's Occupation</option>
+                                            <option value='guardian_contact'>Guardian's Contact No.</option>
+                                            <option value='present_address'>Permanent Address</option>
+                                            <option value='permanent_address'>Present Address</option>
                                         </optgroup>
                                     </select>
                                     <script type="text/javascript">

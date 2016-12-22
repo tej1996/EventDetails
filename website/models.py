@@ -103,16 +103,64 @@ class Invite(models.Model):
 
 
 class EventFields(models.Model):
+    # Basic Profile
     name = models.BooleanField(default=False)
     dob = models.BooleanField(default=False)
     age = models.BooleanField(default=False)
     gender = models.BooleanField(default=False)
+    birthplace = models.BooleanField(default=False)
     contact = models.BooleanField(default=False)
+    alternate_contact = models.BooleanField(default=False)
+    passphoto = models.BooleanField(default=False)
+    sign = models.BooleanField(default=False)
+
+    # Current Academic Details
+    class_rno = models.BooleanField(default=False)
     univ_rno = models.BooleanField(default=False)
+    semester = models.BooleanField(default=False)
+    section = models.BooleanField(default=False)
     batch = models.BooleanField(default=False)
+    year = models.BooleanField(default=False)
+    branch = models.BooleanField(default=False)
+    college = models.BooleanField(default=False)
+    per_sem1 = models.BooleanField(default=False)
+    per_sem2 = models.BooleanField(default=False)
+    per_sem3 = models.BooleanField(default=False)
+    per_sem4 = models.BooleanField(default=False)
+    per_sem5 = models.BooleanField(default=False)
+    per_sem6 = models.BooleanField(default=False)
+    per_sem7 = models.BooleanField(default=False)
+    per_sem8 = models.BooleanField(default=False)
+
+    # Previous Academic Details
+    admission_mode = models.BooleanField(default=False)
+    admission_rank = models.BooleanField(default=False)
+    percentage_tenth = models.BooleanField(default=False)
+    board_tenth = models.BooleanField(default=False)
+    medium_tenth = models.BooleanField(default=False)
+    year_tenth = models.BooleanField(default=False)
+    school_tenth = models.BooleanField(default=False)
+    percentage_twelfth = models.BooleanField(default=False)
+    board_twelfth = models.BooleanField(default=False)
+    medium_twelfth = models.BooleanField(default=False)
+    year_twelfth = models.BooleanField(default=False)
+    school_twelfth = models.BooleanField(default=False)
+    percentage_diploma = models.BooleanField(default=False)
+    stream_diploma = models.BooleanField(default=False)
+    year_diploma = models.BooleanField(default=False)
+    college_diploma = models.BooleanField(default=False)
+
+    # Additional Details
     father_name = models.BooleanField(default=False)
+    father_contact = models.BooleanField(default=False)
+    father_occupation = models.BooleanField(default=False)
     mother_name = models.BooleanField(default=False)
-    event = models.OneToOneField(Event,null=True, blank=True, default=None, on_delete=models.CASCADE)
+    mother_contact = models.BooleanField(default=False)
+    mother_occupation = models.BooleanField(default=False)
+    guardian_contact = models.BooleanField(default=False)
+    present_address = models.BooleanField(default=False)
+    permanent_address = models.BooleanField(default=False)
+    event = models.OneToOneField(Event, null=True, blank=True, default=None, on_delete=models.CASCADE)
 
 
 class Entries(models.Model):

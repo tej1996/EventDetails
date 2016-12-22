@@ -46,14 +46,14 @@
                                                 Name:
                                                 </th>
                                             {% endif %}
-                                            {% if columns.age %}
-                                                <th>
-                                                Age:
-                                                </th>
-                                            {% endif %}
                                             {% if columns.dob %}
                                                 <th>
                                                 DOB:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.age %}
+                                                <th>
+                                                Age:
                                                 </th>
                                             {% endif %}
                                             {% if columns.gender %}
@@ -61,29 +61,106 @@
                                                 Gender:
                                                 </th>
                                             {% endif %}
+                                            {% if columns.birthplace %}
+                                                <th>
+                                                Birth Place:
+                                                </th>
+                                            {% endif %}
                                             {% if columns.contact %}
                                                 <th>
                                                 Contact:
                                                 </th>
                                             {% endif %}
-                                            {% if columns.univ_rno %}
+                                            {% if columns.alternate_contact %}
                                                 <th>
-                                                Univ Roll no:
+                                                Alternate Contact No.
                                                 </th>
                                             {% endif %}
-                                            {% if columns.batch%}
+                                            {% if columns.class_rno%}
+                                                <th>
+                                                Class Roll No.
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.univ_rno%}
+                                                <th>
+                                                    University Roll No.
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.semester %}
+                                                <th>
+                                                Current Semester
+                                                </th>
+                                            {% endif %}
+
+                                            {% if columns.section %}
+                                                <th>
+                                                Section:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.batch %}
                                                 <th>
                                                 Batch:
                                                 </th>
                                             {% endif %}
+                                            {% if columns.year %}
+                                                <th>
+                                                Batch:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.branch %}
+                                                <th>
+                                                Batch:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.college %}
+                                                <th>
+                                                College:
+                                                </th>
+                                            {% endif %}
+
                                             {% if columns.father_name%}
                                                 <th>
                                                 Father's Name:
                                                 </th>
                                             {% endif %}
-                                            {% if columns.mother_name %}
+                                            {% if columns.father_contact %}
+                                                <th>
+                                                Father's Contact
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.father_occupation%}
+                                                <th>
+                                                Father's Occupation
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.mother_name%}
                                                 <th>
                                                 Mother's Name:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.mother_contact %}
+                                                <th>
+                                                Mother's Contact
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.mother_occupation %}
+                                                <th>
+                                                Mother's Occupation:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.guardian_contact %}
+                                                <th>
+                                               Guardian Contact
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.present_address%}
+                                                <th>
+                                                Present Address
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.permanent_address %}
+                                                <th>
+                                                Permanent Address
                                                 </th>
                                             {% endif %}
                                         </tr>
@@ -95,14 +172,14 @@
                                                 {{ row.userprofile.name }}
                                                 </td>
                                             {% endif %}
-                                            {% if columns.age %}
-                                                <td>
-                                                {{ row.userprofile.age }}
-                                                </td>
-                                            {% endif %}
                                             {% if columns.dob %}
                                                 <td>
                                                 {{ row.userprofile.dob}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.age %}
+                                                <td>
+                                                {{ row.userprofile.age }}
                                                 </td>
                                             {% endif %}
                                             {% if columns.gender %}
@@ -110,9 +187,24 @@
                                                 {{ row.userprofile.gender }}
                                                 </td>
                                             {% endif %}
+                                            {% if columns.birthplace%}
+                                                <td>
+                                                {{ row.userprofile.birthplace}}
+                                                </td>
+                                            {% endif %}
                                             {% if columns.contact%}
                                                 <td>
                                                 {{ row.userprofile.contact}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.alternate_contact%}
+                                                <td>
+                                                {{ row.userprofile.alternate_contact}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.class_rno%}
+                                                <td>
+                                                {{ row.userprofile.class_rno}}
                                                 </td>
                                             {% endif %}
                                             {% if columns.univ_rno%}
@@ -120,19 +212,81 @@
                                                 {{ row.userprofile.univ_rno}}
                                                 </td>
                                             {% endif %}
+                                            {% if columns.semester%}
+                                                <td>
+                                                {{ row.userprofile.semester}}
+                                                </td>
+                                            {% endif %}
+
+                                            {% if columns.section%}
+                                                <td>
+                                                {{ row.userprofile.section}}
+                                                </td>
+                                            {% endif %}
                                             {% if columns.batch%}
                                                 <td>
                                                 {{ row.userprofile.batch}}
                                                 </td>
                                             {% endif %}
+                                            {% if columns.year%}
+                                                <td>
+                                                {{ row.userprofile.year}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.branch%}
+                                                <td>
+                                                {{ row.userprofile.branch}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.college%}
+                                                <td>
+                                                {{ row.userprofile.college}}
+                                                </td>
+                                            {% endif %}
+
                                             {% if columns.father_name%}
                                                 <td>
                                                 {{ row.userprofile.father_name}}
                                                 </td>
                                             {% endif %}
+                                            {% if columns.father_contact%}
+                                                <td>
+                                                {{ row.userprofile.father_contact}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.father_occupation%}
+                                                <td>
+                                                {{ row.userprofile.father_occupation}}
+                                                </td>
+                                            {% endif %}
                                             {% if columns.mother_name%}
                                                 <td>
                                                 {{ row.userprofile.mother_name}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.mother_contact%}
+                                                <td>
+                                                {{ row.userprofile.mother_contact}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.mother_occupation%}
+                                                <td>
+                                                {{ row.userprofile.mother_occupation}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.guardian_contact%}
+                                                <td>
+                                                {{ row.userprofile.guardian_contact}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.present_address%}
+                                                <td>
+                                                {{ row.userprofile.present_address}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.permanent_address%}
+                                                <td>
+                                                {{ row.userprofile.permanent_address}}
                                                 </td>
                                             {% endif %}
                                         </tr>

@@ -129,6 +129,8 @@ def user_login(request):
 def user_logout(request):
     if request.user.is_authenticated():
         logout(request)
+        global message
+        message = ''
     else:
         return redirect('/dashboard/')
     return redirect('/')
@@ -239,15 +241,18 @@ def user_profile(request):
         return redirect('/')
 
 
+message = ''
+
+
 def new_event(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
             event_form = EventForm(request.POST)
-            message = ''
             if event_form.is_valid():
                 event = event_form.save(commit=False)
                 event.by = request.user.id
                 event.save()
+                global message
                 for cat in request.POST.getlist('category'):
                     invite = Invite(eve=event, category=cat)
                     invite.save()
@@ -265,19 +270,56 @@ def new_event(request):
                     fields.dob = True
                 if 'contact' in selected_fields:
                     fields.contact = True
-                if 'batch' in selected_fields:
-                    fields.batch = True
-                if 'father_name' in selected_fields:
-                    fields.father_name = True
-                if 'mother_name' in selected_fields:
-                    fields.mother_name = True
+                if 'alternate_contact' in selected_fields:
+                    fields.alternate_contact = True
+                if 'passphoto' in selected_fields:
+                        fields.passphoto = True
+                if 'sign' in selected_fields:
+                    fields.sign = True
+
+                if 'class_rno' in selected_fields:
+                    fields.class_rno = True
                 if 'univ_rno' in selected_fields:
                     fields.univ_rno = True
+                if 'semester' in selected_fields:
+                    fields.semester = True
+                if 'section' in selected_fields:
+                    fields.section = True
+                if 'batch' in selected_fields:
+                    fields.batch = True
+                if 'year' in selected_fields:
+                    fields.year = True
+                if 'branch' in selected_fields:
+                    fields.branch = True
+                if 'college' in selected_fields:
+                    fields.college = True
+
+                # previous academic details skipped
+
+                if 'father_name' in selected_fields:
+                    fields.father_name = True
+                if 'father_contact' in selected_fields:
+                    fields.father_contact = True
+                if 'father_occupation' in selected_fields:
+                    fields.father_occupation = True
+                if 'mother_name' in selected_fields:
+                    fields.mother_name = True
+                if 'mother_contact' in selected_fields:
+                    fields.mother_contact = True
+                if 'mother_occupation' in selected_fields:
+                    fields.mother_occupation = True
+                if 'guardian_contact' in selected_fields:
+                    fields.guardian_contact = True
+                if 'present_address' in selected_fields:
+                    fields.present_address = True
+                if 'permanent_address' in selected_fields:
+                    fields.permanent_address = True
+
                 fields.event = event
                 fields.save()
-                message += 'Event Created Successfully.'
+                message = 'Event ' + event.name + ' created Successfully.'
             else:
-                message += 'Details are incorrect.'
+                message = 'Details are incorrect.'
             return redirect(dashboard)
 
         else:
@@ -285,26 +327,32 @@ def new_event(request):
 
 
 def delete_event(request, eventid):
-    obj = Event.objects.get(id=eventid)
-    obj.delete()
-    return redirect(dashboard)
+    myevent = Event.objects.get(id=eventid)
+    event_name = myevent.name
+    if myevent.by == request.user.id:
+        myevent.delete()
+        global message
+        message = event_name+' deleted successfully.'
+        return redirect(dashboard)
+    else:
+        return redirect(dashboard)
 
 
 def dashboard(request):
     if request.user.is_authenticated():
         event_form = EventForm()
         my_events = Event.objects.filter(by=request.user.id)
-        message = ''
+        global message
         user_category = UserProfile.objects.get(id=request.user.id).branch
         current_user_id = request.user.id
-        expired_events = Invite.objects.filter(eve__start_date__lt=datetime.date.today())
+        expired_events = Invite.objects.filter(eve__end_date__lt=datetime.date.today(), category=user_category)
         registered = Entries.objects.filter(userprofile__user_id=current_user_id)
-        active_events = Invite.objects.filter(category=user_category).exclude(eve__entries__userprofile__user_id
-                                                                              =current_user_id).filter(eve__start_date__gte=datetime.date.today())
-        if not my_events:
-            message += 'You did not created any event yet. '
-        if not active_events:
-            message += 'No active events.'
+        active_events = Invite.objects.filter(category=user_category).exclude(
+            eve__entries__userprofile__user_id=current_user_id).filter(eve__end_date__gte=datetime.date.today())
+        # if not my_events:
+        #   message += 'You did not created any event yet. '
+        # if not active_events:
+        #   message += 'No active events.'
 
         return render(request, 'website/dashboard.html', {'my_events': my_events, 'active_events': active_events,
                                                           'event_form': event_form, 'registered': registered,
@@ -320,6 +368,9 @@ def allow(request, eid):
     entries.userprofile = user_profile
     entries.event = Event.objects.get(id=eid)
     entries.save()
+    global message
+    message = ''
+    message = 'your entry is filled in ' + entries.event.name
     return redirect(dashboard)
 
 
