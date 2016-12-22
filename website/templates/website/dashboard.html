@@ -226,37 +226,21 @@
                                 {{ event_form.end_date }}
                               </div>
                             </div>
-                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="optgroup">Select Category</label>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="category">Category</label>
                                 <div class="col-md-4">
-                                    <select name="category" id='optgroup' multiple='multiple'>
-                                        <optgroup label='Branch'>
-                                            <option value='CSE'>CSE</option>
-                                            <option value='IT'>IT</option>
-                                            <option value='ME'>ME</option>
-                                            <option value='IT'>IT</option>
-                                            <option value='ECE'>ECE</option>
-                                        </optgroup>
-                                        <optgroup label='Year'>
-                                            <option value='1'>1st</option>
-                                            <option value='2'>2nd</option>
-                                            <option value='3'>3rd</option>
-                                            <option value='4'>4th</option>
-                                        </optgroup>
-                                        <optgroup label='Section'>
-                                            <option value='A'>A</option>
-                                            <option value='B'>B</option>
-                                            <option value='C'>C</option>
-                                            <option value='D'>D</option>
-                                            <option value='E'>E</option>
-                                        </optgroup>
-                                    </select>
-                                    <script type="text/javascript">
-                                        // run pre selected options
-                                        $('#optgroup').multiSelect({
-                                            selectableOptgroup: true
-                                        });
-                                    </script>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="category" value="CSE">CSE</label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="category" value="IT">IT</label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="category" value="ME">ME</label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="category" value="Civil">Civil</label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="category" value="ECE">ECE</label>
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="category" value="EE">EE</label>
                                 </div>
                             </div>
 
