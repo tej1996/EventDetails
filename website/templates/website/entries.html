@@ -1,0 +1,158 @@
+{% extends 'website/base.html' %}
+{% block title %} entries {% endblock %}
+{% block extrafiles %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/headstyle.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/dataTables.bootstrap.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/dataTables.responsive.css' %}"/>
+    <script src="{% static 'website/js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'website/js/dataTables.bootstrap.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#dataTables-example').DataTable({
+                responsive: true
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block dashboard %}
+    <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Entries</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Follwing users filled entries.
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <div class="well">
+                                <h4>{{ event_details.name }}</h4>
+                                <p>{{ event_details.description }}</p>
+                                <p>total entries   {{ entry.count }}</p>
+                            </div>
+                            <div class="dataTable_wrapper">
+                                <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                        <tr>
+                                            {% if columns.name %}
+                                                <th>
+                                                Name:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.age %}
+                                                <th>
+                                                Age:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.dob %}
+                                                <th>
+                                                DOB:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.gender %}
+                                                <th>
+                                                Gender:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.contact %}
+                                                <th>
+                                                Contact:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.univ_rno %}
+                                                <th>
+                                                Univ Roll no:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.batch%}
+                                                <th>
+                                                Batch:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.father_name%}
+                                                <th>
+                                                Father's Name:
+                                                </th>
+                                            {% endif %}
+                                            {% if columns.mother_name %}
+                                                <th>
+                                                Mother's Name:
+                                                </th>
+                                            {% endif %}
+                                        </tr>
+
+                                    {% for row in entry %}
+                                        <tr>
+                                            {% if columns.name %}
+                                                <td>
+                                                {{ row.userprofile.name }}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.age %}
+                                                <td>
+                                                {{ row.userprofile.age }}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.dob %}
+                                                <td>
+                                                {{ row.userprofile.dob}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.gender %}
+                                                <td>
+                                                {{ row.userprofile.gender }}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.contact%}
+                                                <td>
+                                                {{ row.userprofile.contact}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.univ_rno%}
+                                                <td>
+                                                {{ row.userprofile.univ_rno}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.batch%}
+                                                <td>
+                                                {{ row.userprofile.batch}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.father_name%}
+                                                <td>
+                                                {{ row.userprofile.father_name}}
+                                                </td>
+                                            {% endif %}
+                                            {% if columns.mother_name%}
+                                                <td>
+                                                {{ row.userprofile.mother_name}}
+                                                </td>
+                                            {% endif %}
+                                        </tr>
+                                    {% endfor %}
+                                </table>
+                            </div>
+                            <!-- /.table-responsive -->
+                        </div>
+                        <!-- /.panel-body -->
+                    </div>
+                    <!-- /.panel -->
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <!-- /.col-lg-6 -->
+            </div>
+            <!-- /.row -->
+            </div>
+        </div>
+
+{% endblock %}
