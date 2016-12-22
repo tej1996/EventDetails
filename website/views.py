@@ -297,7 +297,7 @@ def dashboard(request):
         message = ''
         user_category = UserProfile.objects.get(id=request.user.id).branch
         current_user_id = request.user.id
-        expired_events = Invite.objects.filter(eve__start_date__lte=datetime.date.today())
+        expired_events = Invite.objects.filter(eve__start_date__lt=datetime.date.today())
         registered = Entries.objects.filter(userprofile__user_id=current_user_id)
         active_events = Invite.objects.filter(category=user_category).exclude(eve__entries__userprofile__user_id
                                                                               =current_user_id).exclude(eve__start_date__lte=datetime.date.today())
