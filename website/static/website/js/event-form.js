@@ -23,6 +23,3 @@ jQuery(document).ready(function() {
     });
 
 });
-/**
- * Created by Mukesh on 15-12-2016.
- */

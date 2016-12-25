@@ -2,116 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <title>{% block title %}Home {% endblock %}</title>
 
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/startmin.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'website/css/dashboard.css' %}"/>
     <link href="{% static 'website/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
     <script src="{% static 'website/js/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'website/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'website/css/bootstrap-adaptive-tabs.css' %}"/>
+
+    {% load cloudinary %}
     {% block extrafiles %}
     {% endblock %}
+    {% load tags %}
 </head>
+
 <body>
-<!-- Navigation -->
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="navbar-header">
-                <a class="navbar-brand land" href="#">eBoard</a>
-                <a class="navbar-brand port" href="#"><i class="fa fa-bullhorn fa-fw"></i></a>
-            </div>
+<div id="wrapper">
+    <!-- Navigation -->
+    <nav class="navbar navbar-color navbar-fixed-top" role="navigation">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{% url 'index' %}">eBoard</a>
+        </div>
 
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
 
-            <!-- Top Navigation: Left Menu -->
-            <!--<ul class="nav navbar-nav navbar-left navbar-top-links">
-                <li class="port"><a href="#"><i class="fa fa-home fa-fw"></i></a></li>
-                <li class="land"><a href="#">Website</a></li>
-            </ul>-->
-            <div class="navbar-header">
-                <a class="navbar-brand land" href="#">Home</a>
-                <a class="navbar-brand port" href="#"><i class="fa fa-plus fa-fw"></i></a>
-            </div>
+        <!-- Top Navigation: Left Menu -->
+        <ul class="nav navbar-nav navbar-left navbar-top-links">
+            <li><a href="{% url 'dashboard' %}"><i class="fa fa-home fa-fw"></i> <span>Home</span></a></li>
+        </ul>
 
-            <!-- Top Navigation: Right Menu -->
-            <ul class="nav navbar-right navbar-top-links">
-                <li class="dropdown navbar-inverse">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell fa-fw"></i> <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu dropdown-alerts">
-                        <li>
-                            <a href="#">
-                                <div>
-                                    <i class="fa fa-comment fa-fw"></i> New Comment
-                                    <span class="pull-right text-muted small">4 minutes ago</span>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="divider"></li>
-                        <li>
-                            <a class="text-center" href="#">
-                                <strong>See All Alerts</strong>
-                                <i class="fa fa-angle-right"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i><b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu dropdown-user">
-                        <li><a href=""><i class="fa fa-user fa-fw"></i> User Profile</a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                        </li>
-                        <li class="divider"></li>
-                        <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+        <!-- Top Navigation: Right Menu -->
+        <ul class="nav navbar-right navbar-top-links">
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="fa fa-user fa-fw"></i> {% if user.is_authenticated %}{{ user.username }} {% endif %}<b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu dropdown-user">
+                    <li><a href="{% url 'profile' %}"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                    </li>
+                    <li><a href="#"><i class="fa fa-key fa-fw"></i> Change Password</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li><a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
 
-            <!-- Sidebar -->
-            <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
-
-                    <ul class="nav" id="side-menu">
-                        <li>
-                            <a href="{% url 'dashboard' %}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
-                        </li>
-                        <li>
-                            <a href="{% url 'profile' %}"><i class="fa fa-edit fa-fw"></i> Profile</a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
+        <!-- Sidebar -->
+        <div class="navbar-default sidebar" role="navigation">
+            <div class="user-section">
+                 <div class="user-icon">
+                    <img class="img-circle img-responsive" src="{% if user.is_authenticated %}{% dp_request request %}{% endif %}">
 
                 </div>
+                <div class="user-detail">
+                    <h4 class="user-name"><b>{% if user.is_authenticated %}{% name_request request %}{% endif %}</b></h4>
+                    <h5 class="user-type"><b>Student</b></h5>
+                    <hr class="user-line-break">
+                </div>
             </div>
-        </nav>
-{% block dashboard %}
-{% endblock %}
+            <div class="sidebar-nav navbar-collapse">
+
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="{% url 'dashboard' %}" class="active"><b><i class="fa fa-dashboard fa-fw"></i> Dashboard</b></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'profile' %}" ><b><i class="fa fa-edit fa-fw"></i> Profile</b></a>
+                    </li>
+                    <li>
+                        <a href="{% url 'profile' %}" ><b><i class="fa fa-key fa-fw"></i> Change Password</b></a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    {% block dashboard %}
+    {% endblock %}
+</div>
 </body>
 </html>

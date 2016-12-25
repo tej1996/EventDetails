@@ -5,7 +5,6 @@
 {% block extrafiles %}
     {% load staticfiles %}
     <script src="{% static 'website/js/jquery.multi-select.js' %}"></script>
-    <!-- <script src="{% static 'website/js/form-scripts.js' %}"></script>-->
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/multi-select.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-style.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-elements.css' %}"/>
@@ -18,15 +17,35 @@
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-lg-12">
-                        <h1 class="page-header">Edit Details</h1>
+                        <h1 class="page-header">Edit Profile</h1>
                     </div>
                 </div>
                 <!-- ... Your content goes here ... -->
-                <ul class="nav nav-tabs">
-                    <li class="active"><a data-toggle="tab" href="#basic">Basic Profile&nbsp;<i class="fa fa-user"></i></a></li>
-                    <li><a data-toggle="tab" href="#current">Current Academic Details&nbsp;<i class="fa fa-book"></i></a></li>
-                    <li><a data-toggle="tab" href="#previous">Previous Academic Details&nbsp;<i class="fa fa-book"></i></a></li>
-                    <li><a data-toggle="tab" href="#additional">Additional Details&nbsp;<i class="fa fa-send"></i></a></li>
+                <ul class="nav nav-tabs bs-adaptive-tabs">
+                    <li class="active">
+                        <a data-toggle="tab" href="#basic">
+                            <i class="fa fa-user fa-2x"></i>
+                            <label>Basic Profile</label>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#current">
+                            <i class="fa fa-book fa-2x"></i>
+                            <label>Current Academic Details</label>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#previous">
+                             <i class="fa fa-book fa-2x"></i>
+                            <label>Previous Academic Details</label>
+                        </a>
+                    </li>
+                    <li>
+                        <a data-toggle="tab" href="#additional">
+                            <i class="fa fa-send fa-2x"></i>
+                            <label>Additional Details</label>
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="tab-content">
@@ -63,7 +82,7 @@
                               </div>
                               <div class="col-lg-6 col-md-6 col-sm-12">
                                         <div class="form-group">
-                                        <label class="sr-only" for="form-contact">Contact</label>
+                                            <label class="sr-only" for="form-contact">Contact</label>
                                         {{ basic_profile_form.contact }}
                                         {{ basic_profile_form.contact.errors }}
                                         </div>

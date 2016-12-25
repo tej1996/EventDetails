@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Information</title>
+</head>
+<body>
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">&times;</button>
+    <h4 class="modal-title">{{ event.name }}</h4>
+</div>
+<div class="modal-body">
+    <p><b> By :</b>{{ user_by }}</p>
+    <p><b> Description :</b></p>
+    <p>{{ event.description }}</p>
+    <p><b> Event Starting Date :</b>{{ event.start_date }}</p>
+    <p><b> Registration End Date :</b>{{ event.end_date }}</p>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div></body>
+</html>

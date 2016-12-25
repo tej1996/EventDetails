@@ -3,8 +3,11 @@ import datetime
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+import tablib
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.exceptions import FieldDoesNotExist
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
@@ -227,6 +230,7 @@ def user_profile(request):
                         message = ""
         currpassphoto = cloudinary.CloudinaryImage(userprofile.passphoto).image(sign_url=True, width=0.5,
                                                                                 type='authenticated')
+
         sign = cloudinary.CloudinaryImage(userprofile.sign).image(sign_url=True, width=0.3, type='authenticated')
         return render(request, 'website/profile.html', {'message:': message,
                                                         'user_form': user_form,
@@ -242,6 +246,7 @@ def user_profile(request):
 
 
 message = ''
+message_error = ''
 
 
 def new_event(request):
@@ -253,6 +258,8 @@ def new_event(request):
                 event.by = request.user.id
                 event.save()
                 global message
+                global message_error
+
                 for cat in request.POST.getlist('category'):
                     invite = Invite(eve=event, category=cat)
                     invite.save()
@@ -319,7 +326,7 @@ def new_event(request):
                 fields.save()
                 message = 'Event ' + event.name + ' created Successfully.'
             else:
-                message = 'Details are incorrect.'
+                message_error = 'Details are incorrect.'
             return redirect(dashboard)
 
         else:
@@ -343,7 +350,8 @@ def dashboard(request):
         event_form = EventForm()
         my_events = Event.objects.filter(by=request.user.id)
         global message
-        user_category = UserProfile.objects.get(id=request.user.id).branch
+        global message_error
+        user_category = UserProfile.objects.get(user=request.user).branch
         current_user_id = request.user.id
         expired_events = Invite.objects.filter(eve__end_date__lt=datetime.date.today(), category=user_category)
         registered = Entries.objects.filter(userprofile__user_id=current_user_id)
@@ -353,10 +361,10 @@ def dashboard(request):
         #   message += 'You did not created any event yet. '
         # if not active_events:
         #   message += 'No active events.'
-
         return render(request, 'website/dashboard.html', {'my_events': my_events, 'active_events': active_events,
                                                           'event_form': event_form, 'registered': registered,
-                                                          'expired_events': expired_events, 'message': message})
+                                                          'expired_events': expired_events, 'message': message,
+                                                          'message_error': message_error})
     else:
         return redirect('/')
 
@@ -370,7 +378,7 @@ def allow(request, eid):
     entries.save()
     global message
     message = ''
-    message = 'your entry is filled in ' + entries.event.name
+    message = 'Your Entry is submitted in ' + entries.event.name
     return redirect(dashboard)
 
 
@@ -387,3 +395,58 @@ def entries(request, eventid):
             return redirect(dashboard)
     else:
         return redirect('/')
+
+
+def download(request, eventid):
+    event_fields = get_object_or_404(EventFields, event_id=eventid)
+    event = get_object_or_404(Event,id=eventid)
+    entry = Entries.objects.filter(event_id=eventid)
+    fields = []
+    try:
+        for field in EventFields._meta.get_all_field_names():
+            if getattr(event_fields, field, False) == True:
+                fields.append(field.title())
+            if 'id' in fields:
+                fields.remove('id')
+            if 'event_id' in fields:
+                fields.remove('event_id')
+    except FieldDoesNotExist:
+        return FieldDoesNotExist
+    if 'name' in fields:
+        fields.remove('name')
+        fields.insert(0, 'name')
+    fields = tuple(fields)
+    headers = fields
+    data = []
+    data = tablib.Dataset(*data, headers=headers)
+    for user in entry:
+        val = []
+        userdetail = get_object_or_404(UserProfile, id=user.userprofile_id)
+        for field in fields:
+            val.append(str(getattr(userdetail, field, None)))
+        data.append(val)
+    response = HttpResponse(data.xls, content_type='application/vnd.ms-excel;charset=utf-8')
+    response['Content-Disposition'] = "attachment; filename="+event.name+".xls"
+
+    return response
+
+
+def edit_event(request, eventid):
+    if request.user.is_authenticated():
+        event = get_object_or_404(Event, id=eventid)
+        event_form = EventForm(instance=event)
+        if request.method == 'POST':
+            event_form = EventForm(request.POST, instance=event)
+            if event_form.is_valid():
+                event = event_form.save()
+                event.save()
+            else:
+                print("Form Error: "+event_form.errors)
+    return render(request, 'website/edit-event.html', {'event_form': event_form})
+
+
+def event_info(request, eventid):
+    event = get_object_or_404(Event, id=eventid)
+    user_by = get_object_or_404(UserProfile, user_id=event.by)
+
+    return render(request, 'website/event-info.html', {'event': event, 'user_by': user_by.name})

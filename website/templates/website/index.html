@@ -18,6 +18,7 @@
     <script src='{% static "website/js/jquery-3.1.1.min.js" %}'></script>
     <!-- Bootstrap Core JavaScript -->
     <script src="{% static 'website/js/bootstrap.min.js' %}"></script>
+
 </head>
 
 <body>
@@ -25,12 +26,12 @@
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">Startmin</a>
+                <a class="navbar-brand" href="{% url 'index' %}">eBoard</a>
             </div>
 
             <!-- Top Navigation: Left Menu -->
             <ul class="nav navbar-nav navbar-left navbar-top-links">
-                <li><a href="#"><i class="fa fa-home fa-fw"></i> Website</a></li>
+                <li><a href="{% url 'index' %}"><i class="fa fa-home fa-fw"></i> Home</a></li>
             </ul>
         </nav>
 
@@ -52,7 +53,7 @@
                         {{ login_error }}
                         <div class="form-group">
                             <label for="InputUsername_login">Username</label>
-                            <input type="text" name="username_login" class="form-control" id="InputUsername_login" placeholder="Enter email" />
+                            <input type="text" name="username_login" class="form-control" id="InputUsername_login" placeholder="Enter Username" />
 
                         </div>
                         <div class="form-group">
