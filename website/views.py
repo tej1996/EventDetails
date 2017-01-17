@@ -360,7 +360,7 @@ def dashboard(request):
             eve__entries__userprofile__user_id=current_user_id).filter(eve__end_date__gte=datetime.date.today())\
             .exclude(eve__by=current_user_id)
         return render(request, 'website/dashboard.html', {'my_events': my_events, 'active_events': active_events,
-                                                          'event_form': event_form, 'registered': registered,
+                                                          'registered': registered, 'event_form': event_form,
                                                           'expired_events': expired_events, 'message': message,
                                                           'message_error': message_error})
     else:
