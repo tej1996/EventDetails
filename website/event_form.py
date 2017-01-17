@@ -3,6 +3,7 @@ from django.forms.extras import SelectDateWidget
 
 from .models import Event
 
+
 class EventForm(forms.ModelForm):
 
     CHOICES = [('1', 'I'),
@@ -23,5 +24,4 @@ class EventForm(forms.ModelForm):
                                                   'id': 'event_name'}),
                    'description': forms.Textarea(attrs={'placeholder': 'Description', 'class': 'form-control',
                                                         'id': 'event_desc'}),
-
-                  }
+                   }

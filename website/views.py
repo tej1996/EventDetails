@@ -353,14 +353,12 @@ def dashboard(request):
         global message_error
         user_category = UserProfile.objects.get(user=request.user).branch
         current_user_id = request.user.id
-        expired_events = Invite.objects.filter(eve__end_date__lt=datetime.date.today(), category=user_category)
+        expired_events = Invite.objects.filter(category=user_category).filter(eve__end_date__lt=datetime.date.today())\
+            .exclude(eve__by=current_user_id)
         registered = Entries.objects.filter(userprofile__user_id=current_user_id)
         active_events = Invite.objects.filter(category=user_category).exclude(
-            eve__entries__userprofile__user_id=current_user_id).filter(eve__end_date__gte=datetime.date.today())
-        # if not my_events:
-        #   message += 'You did not created any event yet. '
-        # if not active_events:
-        #   message += 'No active events.'
+            eve__entries__userprofile__user_id=current_user_id).filter(eve__end_date__gte=datetime.date.today())\
+            .exclude(eve__by=current_user_id)
         return render(request, 'website/dashboard.html', {'my_events': my_events, 'active_events': active_events,
                                                           'event_form': event_form, 'registered': registered,
                                                           'expired_events': expired_events, 'message': message,

@@ -38,6 +38,19 @@
                 var diff = Math.floor((Date.parse(node) - Date.parse(new Date().toDateString())) / (24 * 60 * 60 * 1000));
                 $(this).text(diff+" days to go");
             });
+            $('#id_end_date_year, #id_end_date_month, #id_end_date_day').blur(function () {
+                var sd = $('#id_start_date_day').val();
+                var sm = $('#id_start_date_month').val();
+                var sy = $('#id_start_date_year').val();
+                var ed = $('#id_end_date_day').val();
+                var em = $('#id_end_date_month').val();
+                var ey = $('#id_end_date_year').val();
+                var start_d = new Date(sd, sm, sy);
+                var end_d = new Date(ed, em, ey);
+                if(start_d < end_d) {
+                    alert('invalid dates');
+                }
+            });
 
         });
         $(document).ready(function() {
@@ -116,10 +129,10 @@
                                                 <div class="col-xs-12 lead">
                                                     {{ act_event.eve.name }}
                                                 </div>
-                                                <div class="col-xs-12">
+                                                <div class="col-xs-12 e_start">
                                                     Event Starting on:{{ act_event.eve.start_date }}
                                                 </div>
-                                                <div class="col-xs-12">
+                                                <div class="col-xs-12 e_end">
                                                     Entry Close on:{{ act_event.eve.end_date }}
                                                 </div>
                                             </div>
