@@ -4,7 +4,9 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 import tablib
-from django.contrib.auth import authenticate, login, logout
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 from django.core.exceptions import FieldDoesNotExist
 from django.http import HttpResponse
@@ -12,8 +14,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from website.event_form import EventForm
-from website.forms import UserForm, UserProfileForm, BasicProfileForm, CurrentAProfileForm,PreviousAProfileForm,AdditionalProfileForm
-from website.models import Event, UserProfile, Entries, EventFields,Invite
+from website.forms import UserForm, UserProfileForm, BasicProfileForm, CurrentAProfileForm, PreviousAProfileForm, AdditionalProfileForm
+from website.models import Event, UserProfile, Entries, EventFields, Invite
 cloudinary.config(
   cloud_name="tej-mycloud",
   api_key="191512437269526",
@@ -448,3 +450,24 @@ def event_info(request, eventid):
     user_by = get_object_or_404(UserProfile, user_id=event.by)
 
     return render(request, 'website/event-info.html', {'event': event, 'user_by': user_by.name})
+
+
+def change_password(request):
+    if request.user.is_authenticated():
+        result = ''
+        result_error = ''
+        if request.method == 'POST':
+            form = PasswordChangeForm(request.user, request.POST)
+            if form.is_valid():
+                user = form.save()
+                update_session_auth_hash(request, user)  # Important!
+                messages.success(request, 'Your password was successfully updated!')
+                result = 'Your password was successfully updated!'
+            else:
+                messages.error(request, 'Please correct the error below.')
+                result_error = 'Please correct the error below.'
+        else:
+            form = PasswordChangeForm(request.user)
+        return render(request, 'website/changepassword.html', {'form': form, 'result': result, 'result_error': result_error})
+    else:
+        return redirect('/')

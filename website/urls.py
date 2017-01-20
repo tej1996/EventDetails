@@ -1,7 +1,13 @@
 from django.conf.urls import url
-from . import views
+from django.contrib import auth
 
+from . import views
+from django.contrib.auth.views import (
+    password_change,
+    password_change_done,
+)
 app_name = 'website'
+
 
 urlpatterns = [
     url(r'^$', views.register, name='index'),
@@ -16,5 +22,6 @@ urlpatterns = [
     url(r'^entries/(?P<eventid>\d+)/$', views.entries, name='entries'),
     url(r'^edit-event/(?P<eventid>\d+)/$', views.edit_event, name='edit-event'),
     url(r'^event-info/(?P<eventid>\d+)/$', views.event_info, name='event-info'),
-    url(r'^download/(?P<eventid>\d+)/$', views.download, name='download')
+    url(r'^download/(?P<eventid>\d+)/$', views.download, name='download'),
+    url(r'^password/$', views.change_password, name='change_password'),
 ]
