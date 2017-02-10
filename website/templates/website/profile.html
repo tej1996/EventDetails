@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/form-elements.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/headstyle.css' %}"/>
     {% load cloudinary %}
+    {% load tags %}
 {% endblock %}
 
 {% block dashboard %}
@@ -28,6 +29,7 @@
                             <label>Basic Profile</label>
                         </a>
                     </li>
+                    {% if type == "student" %}
                     <li>
                         <a data-toggle="tab" href="#current">
                             <i class="fa fa-book fa-2x"></i>
@@ -40,6 +42,7 @@
                             <label>Previous Academic Details</label>
                         </a>
                     </li>
+                    {% endif %}
                     <li>
                         <a data-toggle="tab" href="#additional">
                             <i class="fa fa-send fa-2x"></i>
@@ -120,6 +123,7 @@
                         </fieldset>
                         </form>
                     </div>
+                    {% if type == "student" %}
                     <div id="current" class="tab-pane fade" style="border-radius:5px;background: #eee; margin-top:5px; padding-bottom:10px;">
                         <form role="form" action="{% url 'website.views.user_profile' %}"  method="post" class="current-acad-form">
                         {% csrf_token %}
@@ -317,6 +321,7 @@
                                 </fieldset>
                             </form>
                     </div>
+                    {% endif %}
                     <div id="additional" class="tab-pane fade" style="border-radius:5px;background: #eee; margin-top:5px; padding-bottom:10px;">
                         <form role="form" action="{% url 'website.views.user_profile' %}" method="post" class="addtional-form">
                         {% csrf_token %}

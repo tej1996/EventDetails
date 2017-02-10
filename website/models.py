@@ -17,8 +17,9 @@ class UserProfile(models.Model):
                                       message="Percentage allowed only in real numbers upto one decimal place.")
     # The additional attributes we wish to include.
     # Basic Profile
+    type = models.IntegerField(blank=True, null=True, default=None)
     name = models.CharField(max_length=50, blank=True, default=None)
-    dob = models.DateField(blank=True,null=True)
+    dob = models.DateField(blank=True, null=True)
     age = models.IntegerField(default=None, blank=True, null=True)
     gender = models.CharField(max_length=1, default=None, blank=True, null=True)
     birthplace = models.CharField(max_length=15, default=None, blank=True, null=True)

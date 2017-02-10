@@ -23,3 +23,13 @@ def name_request(request):
     user = get_object_or_404(UserProfile, user=request.user)
 
     return user.name
+
+
+@register.simple_tag
+def type_request(request):
+    user = get_object_or_404(UserProfile, user=request.user)
+    if user.type:
+        type = "Faculty"
+    else:
+        type = "Student"
+    return type

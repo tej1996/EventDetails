@@ -104,7 +104,8 @@ def user_login(request):
         # Use Django's machinery to attempt to see if the username/password
         # combination is valid - a User object is returned if it is.
         user = authenticate(username=username, password=password)
-
+        user_form = UserForm()
+        profile_form = UserProfileForm()
         # If we have a User object, the details are correct.
         # If None (Python's way of representing the absence of a value), no user
         # with matching credentials was found.
@@ -117,18 +118,22 @@ def user_login(request):
                 return redirect('/dashboard/')
             else:
                 # An inactive account was used - no logging in!
-                return render(request, 'website/index.html', {'login_error': 'Your account is disabled!'})
+                return render(request, 'website/index.html', {'login_error': 'Your account is disabled!',
+                                                              'user_reg_form': user_form, 'user_profile_form': profile_form})
         else:
             # Bad login details were provided. So we can't log the user in.
             # print "Invalid login details: {0}, {1}".format(username, password)
-            return render(request, 'website/index.html', {'login_error': 'Invalid Credentials'})
+            return render(request, 'website/index.html', {'login_error': 'Invalid Credentials',
+                                                          'user_reg_form': user_form, 'user_profile_form': profile_form})
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
     else:
+        user_form = UserForm()
+        profile_form = UserProfileForm()
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'website/index.html')
+        return render(request, 'website/index.html', {'user_reg_form': user_form, 'user_profile_form': profile_form})
 
 
 def user_logout(request):
@@ -154,6 +159,7 @@ def user_profile(request):
         additional_profile_form = AdditionalProfileForm(instance=userprofile)
         message = ""
         upload_error = ""
+
 
         if request.POST.get('update') == 'update_basic':
             if request.method == 'POST':
@@ -234,7 +240,18 @@ def user_profile(request):
                                                                                 type='authenticated')
 
         sign = cloudinary.CloudinaryImage(userprofile.sign).image(sign_url=True, width=0.3, type='authenticated')
-        return render(request, 'website/profile.html', {'message:': message,
+        if userprofile.type:
+            return render(request, 'website/profile.html', {'message:': message,
+                                                            'user_form': user_form,
+                                                            'basic_profile_form': basic_profile_form,
+                                                            'additional_profile_form': additional_profile_form,
+                                                            'currpassphoto': currpassphoto,
+                                                            'sign': sign,
+                                                            'upload_error': upload_error,
+                                                            'type': 'faculty'})
+        else:
+
+            return render(request, 'website/profile.html', {'message:': message,
                                                         'user_form': user_form,
                                                         'basic_profile_form': basic_profile_form,
                                                         'current_profile_form': current_profile_form,
@@ -242,7 +259,8 @@ def user_profile(request):
                                                         'additional_profile_form': additional_profile_form,
                                                         'currpassphoto': currpassphoto,
                                                         'sign': sign,
-                                                        'upload_error': upload_error})
+                                                        'upload_error': upload_error,
+                                                        'type': 'student'})
     else:
         return redirect('/')
 

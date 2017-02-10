@@ -34,9 +34,13 @@ class UserForm(forms.ModelForm):
 
 
 class UserProfileForm(forms.ModelForm):
+    CHOICES = [('0', 'Student'),
+               ('1', 'Faculty')]
+    type = forms.ChoiceField(choices=CHOICES, widget=forms.Select)
+
     class Meta:
         model = UserProfile
-        fields = ('name',)
+        fields = ('name', 'type',)
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Enter Name',
                                            'id': 'InputUser_userProfile', 'class': 'form-control'}),
