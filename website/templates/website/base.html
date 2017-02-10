@@ -12,6 +12,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/startmin.css' %}"/>
     <link href="{% static 'website/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- Icon-->
+    <link rel="icon" href='{% static "website/images/favicon.ico" %}' type="image/x-icon"/>
     <script src="{% static 'website/js/jquery-3.1.1.min.js' %}"></script>
     <script src="{% static 'website/js/bootstrap.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'website/css/bootstrap-adaptive-tabs.css' %}"/>
@@ -69,7 +71,7 @@
                 </div>
                 <div class="user-detail">
                     <h4 class="user-name"><b>{% if user.is_authenticated %}{% name_request request %}{% endif %}</b></h4>
-                    <h5 class="user-type"><b>Student</b></h5>
+                    <h5 class="user-type"><b>{% if user.is_authenticated %}{% type_request request %}{% endif %}</b></h5>
                     <hr class="user-line-break">
                 </div>
             </div>

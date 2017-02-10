@@ -14,6 +14,8 @@
     <link href='{% static "website/css/bootstrap.min.css" %}' rel="stylesheet">
     <!-- Custom CSS -->
     <link href='{% static "website/css/startmin.css" %}'rel="stylesheet">
+    <!-- Icon-->
+    <link rel="icon" href='{% static "website/images/favicon.ico" %}' type="image/x-icon"/>
     <!-- jQuery -->
     <script src='{% static "website/js/jquery-3.1.1.min.js" %}'></script>
     <!-- Bootstrap Core JavaScript -->
@@ -60,7 +62,7 @@
                             <label for="InputPassword_login">Password</label>
                             <input type="password" name="pass_login" class="form-control" id="InputPassword_login" placeholder="Password" />
                         </div>
-                        <button type="submit" class="btn btn-default" name="signin" value="in">Submit</button>
+                        <button type="submit" class="btn btn-default" name="signin" value="in">Login</button>
                         <hr/>
                     </form>
                 </div>
@@ -83,6 +85,10 @@
                             <label for="InputUser_reg">Username</label>
                             {{ user_reg_form.username }}
                         </div>
+                        <div class="form-group">
+                            <label for="InputType_reg">Type</label>
+                            {{ user_profile_form.type }}
+                        </div>
                         {{ user_reg_form.username.errors }}
                         <div class="form-group">
                             <label for="InputEmail_reg">Email</label>
@@ -93,7 +99,7 @@
                             <label for="InputPassword_reg">Password</label>
                             {{ user_reg_form.password }}
                         </div>
-                        <button type="submit" class="btn btn-default" name="signup">Submit</button>
+                        <button type="submit" class="btn btn-default" name="signup">Sign Up</button>
                         <hr />
                     </form>
                     {% endif %}
