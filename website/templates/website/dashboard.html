@@ -38,7 +38,8 @@
                 var diff = Math.floor((Date.parse(node) - Date.parse(new Date().toDateString())) / (24 * 60 * 60 * 1000));
                 $(this).text(diff+" days to go");
             });
-            $('#id_end_date_year, #id_end_date_month, #id_end_date_day').blur(function () {
+            $('[id*="_date_"]').change();
+            $('[id*="_date_"]').change(function () {
                 var sd = $('#id_start_date_day').val();
                 var sm = $('#id_start_date_month').val();
                 var sy = $('#id_start_date_year').val();
@@ -47,8 +48,14 @@
                 var ey = $('#id_end_date_year').val();
                 var start_d = new Date(sd, sm, sy);
                 var end_d = new Date(ed, em, ey);
-                if(start_d < end_d) {
-                    alert('invalid date');
+                if(start_d.getDate() > end_d.getDate()) {
+                     // correct
+                    $('.submitBtn').removeAttr('disabled');
+                    $('.error').hide();
+                }
+                else {
+                    $('.submitBtn').attr('disabled','disabled');
+                    $('.error').show();
                 }
             });
 
@@ -276,35 +283,39 @@
                             {% csrf_token %}
                             <fieldset>
                             <!-- Event Name-->
-                                <!-- Description -->
                              <div class="form-group">
                               <label class="col-md-4 control-label" for="event_name">Event Name</label>
                               <div class="col-md-4">
                               {{ event_form.name }}
                               </div>
                             </div>
-
-                             <!-- Start Date & Time-->
-                            <div class="form-group">
-                              <label class="col-md-4 control-label" for="event_desc">Description</label>
-                              <div class="col-md-4">
-                                {{ event_form.description }}
-                              </div>
-                            </div>
                             <!-- End Date & Time-->
-                            <div class="form-group">
-                              <label class="col-md-4 control-label" for="event_start_date">Event Start On</label>
-                              <div class="col-md-4">
-                                {{ event_form.start_date }}
-                              </div>
-                            </div>
                             <div class="form-group">
                               <label class="col-md-4 control-label" for="event_end_date">Entry Closed on</label>
                               <div class="col-md-4">
                                 {{ event_form.end_date }}
                               </div>
                             </div>
+                             <!-- Start Date & Time-->
                             <div class="form-group">
+                              <label class="col-md-4 control-label" for="event_start_date">Event Start On</label>
+                              <div class="col-md-4">
+                                {{ event_form.start_date }}
+                              </div>
+                            </div>
+                            <div class="form-group error" style="color: red">
+                              <label class="col-md-4 control-label"></label>
+                              <div class="col-md-4">Invalid dates.
+                              </div>
+                            </div>
+                            <!-- Description -->
+                            <div class="form-group">
+                              <label class="col-md-4 control-label" for="event_desc">Description</label>
+                              <div class="col-md-4">
+                                {{ event_form.description }}
+                              </div>
+                            </div>
+                            <!--<div class="form-group">
                                 <label class="col-md-4 control-label" for="category">Category</label>
                                 <div class="col-md-4">
                                     <label class="checkbox-inline">
@@ -320,12 +331,43 @@
                                     <label class="checkbox-inline">
                                         <input type="checkbox" name="category" value="EE">EE</label>
                                 </div>
+                            </div> -->
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="optgroup">Category</label>
+                                <div class="col-md-4">
+                                    <select name="category" class='optgroup' multiple='multiple'>
+                                        <optgroup label='IV Year'>
+                                            <option value=8CSA>8CSA</option>
+                                            <option value=8CSB>8CSB</option>
+                                            <option value=8CSC>8CSC</option>
+                                            <option value=8CSD>8CSD</option>
+                                        </optgroup>
+                                        <optgroup label='III Year'>
+                                            <option value=6CSA>6CSA</option>
+                                            <option value=6CSB>6CSB</option>
+                                            <option value=6CSC>6CSC</option>
+                                            <option value=6CSD>6CSD</option>
+                                        </optgroup>
+                                        <optgroup label='II Year'>
+                                            <option value=4CSA>4CSA</option>
+                                            <option value=4CSB>4CSB</option>
+                                            <option value=4CSC>4CSC</option>
+                                            <option value=4CSD>4CSD</option>
+                                        </optgroup>
+                                        <optgroup label='I Year'>
+                                            <option value=2CSA>2CSA</option>
+                                            <option value=2CSB>2CSB</option>
+                                            <option value=2CSC>2CSC</option>
+                                            <option value=2CSD>2CSD</option>
+                                        </optgroup>
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-group">
-                                <label class="col-md-4 control-label" for="optgroup">Select Required Fields</label>
+                                <label class="col-md-4 control-label" for="optgroup">Required Fields</label>
                                 <div class="col-md-4">
-                                    <select name="fields" id='optgroup' multiple='multiple'>
+                                    <select name="fields" class='optgroup' multiple='multiple'>
                                         <optgroup label='Basic Profile'>
                                             <option value='name' selected >Name</option>
                                             <option value='dob'>Date of Birth</option>
@@ -386,7 +428,7 @@
                                     </select>
                                     <script type="text/javascript">
                                         // run pre selected options
-                                        $('#optgroup').multiSelect({
+                                        $('.optgroup').multiSelect({
                                             selectableOptgroup: true
                                         });
                                     </script>
@@ -396,7 +438,7 @@
 
                             <div class="form-group">
                               <div class="col-md-8 pull-right">
-                                <button class="btn btn-success" type="submit" value="Submit">Submit</button>
+                                <button class="btn btn-success submitBtn" disabled="disabled" type="submit" value="Submit">Submit</button>
                               </div>
                             </div>
 
