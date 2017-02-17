@@ -264,10 +264,6 @@ def user_profile(request):
         return redirect('/')
 
 
-message = ''
-message_error = ''
-
-
 def new_event(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
@@ -276,8 +272,6 @@ def new_event(request):
                 event = event_form.save(commit=False)
                 event.by = request.user.id
                 event.save()
-                global message
-                global message_error
                 for cat in request.POST.getlist('category'):
                     invite = Invite(eve=event, category=cat)
                     invite.save()
@@ -289,9 +283,9 @@ def new_event(request):
                         setattr(fields, field_name, True)
                 fields.event = event
                 fields.save()
-                message = 'Event ' + event.name + ' created Successfully.'
+                messages.success(request, 'Event ' + event.name + ' created Successfully.')
             else:
-                message_error = 'Details are incorrect.'
+                messages.warning(request, 'Details are incorrect.')
             return redirect(dashboard)
 
         else:
@@ -303,10 +297,10 @@ def delete_event(request, eventid):
     event_name = my_event.name
     if my_event.by == request.user.id:
         my_event.delete()
-        global message
-        message = event_name+' deleted successfully.'
+        messages.success(request, event_name + ' Deleted successfully.')
         return redirect(dashboard)
     else:
+        messages.warning(request, event_name + ' can\'t delete.')
         return redirect(dashboard)
 
 
@@ -314,8 +308,6 @@ def dashboard(request):
     if request.user.is_authenticated():
         event_form = EventForm()
         my_events = Event.objects.filter(by=request.user.id)
-        global message
-        global message_error
         user_category = UserProfile.objects.get(user=request.user).batch
         current_user_id = request.user.id
         expired_events = Invite.objects.filter(category=user_category).filter(eve__end_date__lt=datetime.date.today())\
@@ -326,8 +318,7 @@ def dashboard(request):
             .exclude(eve__by=current_user_id)
         return render(request, 'website/dashboard.html', {'my_events': my_events, 'active_events': active_events,
                                                           'registered': registered, 'event_form': event_form,
-                                                          'expired_events': expired_events, 'message': message,
-                                                          'message_error': message_error})
+                                                          'expired_events': expired_events, })
     else:
         return redirect('/')
 
@@ -339,9 +330,7 @@ def allow(request, eid):
     entries.userprofile = user_profile
     entries.event = Event.objects.get(id=eid)
     entries.save()
-    global message
-    message = ''
-    message = 'Your Entry is submitted in ' + entries.event.name
+    messages.success(request, 'Your Entry is submitted in ' + entries.event.name)
     return redirect(dashboard)
 
 
@@ -405,13 +394,10 @@ def edit_event(request, eventid):
         fields = EventFields._meta.get_all_field_names()
         fields.remove('id')
         fields.remove('event')
-        # sel_field = event_for_view
-
         for field_name in fields:
             value = getattr(event_fields, field_name)
             if value:
                 selected_fields.append(field_name)
-        global message
         if request.method == 'POST':
             event_form = EventForm(request.POST, instance=event)
             event_fields.delete()
@@ -430,8 +416,7 @@ def edit_event(request, eventid):
                 new_fields.save()
             else:
                 print("Form Error: "+event_form.errors)
-            message = ''
-            message = event.name + ' updated.'
+            messages.success(request, 'Your Entry is submitted in ' + entries.event.name)
             return redirect(dashboard)
     return render(request, 'website/edit-event.html', {'event_form': event_form, 'selected_fields': selected_fields,
                                                        'selected_categories': invited_to, 'eventid': eventid})
@@ -446,20 +431,21 @@ def event_info(request, eventid):
 
 def change_password(request):
     if request.user.is_authenticated():
-        result = ''
-        result_error = ''
+        # result = ''
+        # result_error = ''
         if request.method == 'POST':
             form = PasswordChangeForm(request.user, request.POST)
             if form.is_valid():
                 user = form.save()
                 update_session_auth_hash(request, user)  # Important!
                 messages.success(request, 'Your password was successfully updated!')
-                result = 'Your password was successfully updated!'
+                # result = 'Your password was successfully updated!'
             else:
-                messages.error(request, 'Please correct the error below.')
-                result_error = 'Please correct the error below.'
+                messages.warning(request, 'Please correct the error below.')
+                # result_error = 'Please correct the error below.'
         else:
             form = PasswordChangeForm(request.user)
-        return render(request, 'website/changepassword.html', {'form': form, 'result': result, 'result_error': result_error})
+        # return render(request, 'website/changepassword.html', {'form': form, 'result': result, 'result_error': result_error})
+        return render(request, 'website/changepassword.html', {'form': form, })
     else:
         return redirect('/')

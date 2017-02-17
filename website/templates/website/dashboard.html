@@ -14,17 +14,6 @@
 
     <script>
         $(function(){
-            if($('#msg').text()) {
-                $('.message').show();
-            }
-            else
-                $('.message').hide();
-            if($('#msg-error').text()) {
-                $('.message-error').show();
-            }
-            else
-                $('.message-error').hide();
-
             $(".daydiff").each(
              function(){
                 var node = $(this).text();
@@ -74,20 +63,14 @@
                     <div class="col-lg-12">
                         <h1 class="page-header">Dashboard</h1>
                         {% if user.is_authenticated %}
-                            <div class="alert alert-success alert-white rounded message" style="display: none;">
-                                <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
-                                <div class="icon">
-                                    <i class="fa fa-check"></i>
-                                </div>
-                                <strong id="msg">{{ message }}</strong>
-                            </div>
-                            <div class="alert alert-danger alert-white rounded message-error" style="display: none;">
-                                <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
-                                <div class="icon">
-                                    <i class="fa fa-times-circle"></i>
-                                </div>
-                                <strong id="msg-error">{{ message_error }}</strong>
-                            </div>
+                            {% if messages %}
+                                {% for msg in messages %}
+                                    <div class="alert alert-{{ msg.level_tag }} rounded message">
+                                        <button type="button" data-dismiss="alert" aria-hidden="true" class="close">×</button>
+                                        <strong>{{ msg.message }}</strong>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
