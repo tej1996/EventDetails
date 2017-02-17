@@ -1,5 +1,4 @@
 import datetime
-
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
@@ -279,69 +278,15 @@ def new_event(request):
                 event.save()
                 global message
                 global message_error
-
                 for cat in request.POST.getlist('category'):
                     invite = Invite(eve=event, category=cat)
                     invite.save()
-
                 selected_fields = request.POST.getlist('fields')
                 fields = EventFields()
-
-                if 'name' in selected_fields:
-                    fields.name = True
-                if 'age' in selected_fields:
-                    fields.age = True
-                if 'gender' in selected_fields:
-                    fields.gender = True
-                if 'dob' in selected_fields:
-                    fields.dob = True
-                if 'contact' in selected_fields:
-                    fields.contact = True
-                if 'alternate_contact' in selected_fields:
-                    fields.alternate_contact = True
-                if 'passphoto' in selected_fields:
-                        fields.passphoto = True
-                if 'sign' in selected_fields:
-                    fields.sign = True
-
-                if 'class_rno' in selected_fields:
-                    fields.class_rno = True
-                if 'univ_rno' in selected_fields:
-                    fields.univ_rno = True
-                if 'semester' in selected_fields:
-                    fields.semester = True
-                if 'section' in selected_fields:
-                    fields.section = True
-                if 'batch' in selected_fields:
-                    fields.batch = True
-                if 'year' in selected_fields:
-                    fields.year = True
-                if 'branch' in selected_fields:
-                    fields.branch = True
-                if 'college' in selected_fields:
-                    fields.college = True
-
-                # previous academic details skipped
-
-                if 'father_name' in selected_fields:
-                    fields.father_name = True
-                if 'father_contact' in selected_fields:
-                    fields.father_contact = True
-                if 'father_occupation' in selected_fields:
-                    fields.father_occupation = True
-                if 'mother_name' in selected_fields:
-                    fields.mother_name = True
-                if 'mother_contact' in selected_fields:
-                    fields.mother_contact = True
-                if 'mother_occupation' in selected_fields:
-                    fields.mother_occupation = True
-                if 'guardian_contact' in selected_fields:
-                    fields.guardian_contact = True
-                if 'present_address' in selected_fields:
-                    fields.present_address = True
-                if 'permanent_address' in selected_fields:
-                    fields.permanent_address = True
-
+                all_fields = EventFields._meta.get_all_field_names()
+                for field_name in all_fields:
+                    if field_name in selected_fields:
+                        setattr(fields, field_name, True)
                 fields.event = event
                 fields.save()
                 message = 'Event ' + event.name + ' created Successfully.'
@@ -354,10 +299,10 @@ def new_event(request):
 
 
 def delete_event(request, eventid):
-    myevent = Event.objects.get(id=eventid)
-    event_name = myevent.name
-    if myevent.by == request.user.id:
-        myevent.delete()
+    my_event = Event.objects.get(id=eventid)
+    event_name = my_event.name
+    if my_event.by == request.user.id:
+        my_event.delete()
         global message
         message = event_name+' deleted successfully.'
         return redirect(dashboard)
@@ -371,7 +316,7 @@ def dashboard(request):
         my_events = Event.objects.filter(by=request.user.id)
         global message
         global message_error
-        user_category = UserProfile.objects.get(user=request.user).branch
+        user_category = UserProfile.objects.get(user=request.user).batch
         current_user_id = request.user.id
         expired_events = Invite.objects.filter(category=user_category).filter(eve__end_date__lt=datetime.date.today())\
             .exclude(eve__by=current_user_id)
@@ -453,14 +398,43 @@ def edit_event(request, eventid):
     if request.user.is_authenticated():
         event = get_object_or_404(Event, id=eventid)
         event_form = EventForm(instance=event)
+        # get list of invited category
+        invited_to = Invite.objects.filter(eve_id__exact=eventid)
+        selected_fields = []
+        event_fields = EventFields.objects.get(event__id=eventid)
+        fields = EventFields._meta.get_all_field_names()
+        fields.remove('id')
+        fields.remove('event')
+        # sel_field = event_for_view
+
+        for field_name in fields:
+            value = getattr(event_fields, field_name)
+            if value:
+                selected_fields.append(field_name)
+        global message
         if request.method == 'POST':
             event_form = EventForm(request.POST, instance=event)
+            event_fields.delete()
+            new_fields = EventFields()
             if event_form.is_valid():
                 event = event_form.save()
                 event.save()
+                invited_to.delete()
+                for cat in request.POST.getlist('category'):
+                    invite = Invite(eve=event, category=cat)
+                    invite.save()
+                fieldlist = request.POST.getlist('fields')
+                for selected_field in fieldlist:
+                    setattr(new_fields, selected_field, True)
+                new_fields.event = event
+                new_fields.save()
             else:
                 print("Form Error: "+event_form.errors)
-    return render(request, 'website/edit-event.html', {'event_form': event_form})
+            message = ''
+            message = event.name + ' updated.'
+            return redirect(dashboard)
+    return render(request, 'website/edit-event.html', {'event_form': event_form, 'selected_fields': selected_fields,
+                                                       'selected_categories': invited_to, 'eventid': eventid})
 
 
 def event_info(request, eventid):
