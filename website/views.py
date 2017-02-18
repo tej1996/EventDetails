@@ -414,7 +414,7 @@ def edit_event(request, eventid):
                     setattr(new_fields, selected_field, True)
                 new_fields.event = event
                 new_fields.save()
-                messages.success(request, event_fields.event.name + ' Updated.')
+                messages.success(request, event_fields.event.name + ' updated.')
             else:
                 print("Form Error: "+event_form.errors)
 
