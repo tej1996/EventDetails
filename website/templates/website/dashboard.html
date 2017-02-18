@@ -39,7 +39,7 @@
                 start_d.setHours(0,0,0,0);
                 var end_d = new Date(ey, em-1, ed);
                 end_d.setHours(0,0,0,0);
-                if(start_d.getTime() > end_d.getTime()) {
+                if(start_d > end_d) {
                      // correct
                     $('.submitBtn').removeAttr('disabled');
                     $('.error').hide();
