@@ -414,9 +414,10 @@ def edit_event(request, eventid):
                     setattr(new_fields, selected_field, True)
                 new_fields.event = event
                 new_fields.save()
+                messages.success(request, event_fields.event.name + ' Updated.')
             else:
                 print("Form Error: "+event_form.errors)
-            messages.success(request, 'Your Entry is submitted in ' + entries.event.name)
+
             return redirect(dashboard)
     return render(request, 'website/edit-event.html', {'event_form': event_form, 'selected_fields': selected_fields,
                                                        'selected_categories': invited_to, 'eventid': eventid})

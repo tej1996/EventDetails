@@ -35,9 +35,9 @@
                 var ed = $('#id_end_date_day').val();
                 var em = $('#id_end_date_month').val();
                 var ey = $('#id_end_date_year').val();
-                var start_d = new Date(sd, sm, sy);
-                var end_d = new Date(ed, em, ey);
-                if(start_d.getDate() > end_d.getDate()) {
+                var start_d = new Date(sy, sm, sd);
+                var end_d = new Date(ey, em, ed);
+                if(start_d.getTime() > end_d.getTime()) {
                      // correct
                     $('.submitBtn').removeAttr('disabled');
                     $('.error').hide();
