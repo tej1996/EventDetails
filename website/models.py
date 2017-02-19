@@ -35,7 +35,7 @@ class UserProfile(models.Model):
     class_rno = models.IntegerField(default=None, blank=True, null=True)
     univ_rno = models.IntegerField(default=None, blank=True, null=True)
     semester = models.CharField(max_length=1, default=None, blank=True, null=True)
-    section = models.CharField(max_length=1, default=None, blank=True, null=True)
+    section = models.CharField(max_length=5, default=None, blank=True, null=True)
     batch = models.CharField(max_length=5, default=None, blank=True, null=True)
     year = models.CharField(max_length=1, default=None, blank=True, null=True)
     branch = models.CharField(max_length=10, default=None, blank=True, null=True)

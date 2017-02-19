@@ -85,6 +85,15 @@ class CurrentAProfileForm(forms.ModelForm):
                       ('ME', 'Mechanical Engineering'), ('CE', 'Civil Engineering')]
     branch = forms.ChoiceField(choices=CHOICES_BRANCH, required=False, widget=forms.Select(attrs={'class': 'form-control'}))
 
+    CHOICES_SEC = [('', 'Select Current Section'),
+                   ('3CSA', '3CSA'), ('3CSB', '3CSB'), ('3CSC', '3CSC'), ('3CSD', '3CSD'),
+                   ('4CSA', '4CSA'), ('4CSB', '4CSB'), ('4CSC', '4CSC'), ('4CSD', '4CSD'),
+                   ('5CSA', '5CSA'), ('5CSB', '5CSB'), ('5CSC', '5CSC'), ('5CSD', '5CSD'),
+                   ('6CSA', '6CSA'), ('6CSB', '6CSB'), ('6CSC', '6CSC'), ('6CSD', '6CSD'),
+                   ('7CSA', '7CSA'), ('7CSB', '7CSB'), ('7CSC', '7CSC'), ('7CSD', '7CSD'),
+                   ('8CSA', '8CSA'), ('8CSB', '8CSB'), ('8CSC', '8CSC'), ('8CSD', '8CSD')]
+    section = forms.ChoiceField(choices=CHOICES_SEC, required=False, widget=forms.Select(attrs={'class': 'form-control'}))
+
     class Meta:
         model = UserProfile
         fields = ('class_rno', 'univ_rno', 'semester', 'section', 'batch', 'year', 'branch', 'college',
@@ -92,7 +101,6 @@ class CurrentAProfileForm(forms.ModelForm):
         widgets = {
             'class_rno': forms.TextInput(attrs={'placeholder': 'Class Roll No.', 'class': 'form-control'}),
             'univ_rno': forms.TextInput(attrs={'placeholder': 'University Roll No.', 'class': 'form-control'}),
-            'section': forms.TextInput(attrs={'placeholder': 'Section', 'class': 'form-control'}),
             'batch': forms.TextInput(attrs={'placeholder': 'Batch', 'class': 'form-control'}),
             'college': forms.TextInput(attrs={'placeholder': 'College Name', 'class': 'form-control'}),
             'per_sem1': forms.TextInput(attrs={'placeholder': 'I Sem Percentage', 'class': 'form-control'}),

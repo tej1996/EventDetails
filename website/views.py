@@ -159,7 +159,6 @@ def user_profile(request):
         message = ""
         upload_error = ""
 
-
         if request.POST.get('update') == 'update_basic':
             if request.method == 'POST':
                 basic_profile_form = BasicProfileForm(request.POST, request.FILES, instance=userprofile)
@@ -308,7 +307,7 @@ def dashboard(request):
     if request.user.is_authenticated():
         event_form = EventForm()
         my_events = Event.objects.filter(by=request.user.id)
-        user_category = UserProfile.objects.get(user=request.user).batch
+        user_category = UserProfile.objects.get(user=request.user).section
         current_user_id = request.user.id
         expired_events = Invite.objects.filter(category=user_category).filter(eve__end_date__lt=datetime.date.today())\
             .exclude(eve__by=current_user_id)
