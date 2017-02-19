@@ -25,7 +25,12 @@
              function(){
                 var node = $(this).text();
                 var diff = Math.floor((Date.parse(node) - Date.parse(new Date().toDateString())) / (24 * 60 * 60 * 1000));
-                $(this).text(diff+" days to go");
+                if(diff<0)
+                {
+                    $(this).text((-1*diff)+" days ago");
+                }else{
+                    $(this).text(diff+" days to go");
+                }
             });
             $('[id*="_date_"]').change();
             $('[id*="_date_"]').change(function () {
